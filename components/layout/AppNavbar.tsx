@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import GlobalSearch from "./GlobalSearch";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
+import AppSearch from "./AppSearch";
 
-function Navbar() {
+function AppNavbar() {
   return (
     <div className="fixed inset-0 z-50 h-20 bg-background/70 backdrop-blur-xl">
       <div className="container mx-auto flex h-full max-w-7xl items-center justify-between  max-md:px-3">
@@ -31,7 +31,7 @@ function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           <div className="flex items-center border-r pr-3 gap-2">
-            <GlobalSearch />
+            <AppSearch />
             <Button size={"icon"} variant={"ghost"} >
               <ShoppingCart />
             </Button>
@@ -49,4 +49,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default AppNavbar;

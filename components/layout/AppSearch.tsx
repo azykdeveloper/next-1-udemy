@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 
-function GlobalSearch() {
+function AppSearch() {
   return ( <Button size={"icon"} variant={"ghost"}><Search /></Button> );
 }
 
-export default GlobalSearch;
+export default AppSearch;
