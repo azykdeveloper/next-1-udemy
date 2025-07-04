@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 function Home() {
   return (
     <>
-      <h1 className="">Home</h1>
+      <h1 className=" font-roboto font-extrabold">Home</h1>
     </>
   );
 }
