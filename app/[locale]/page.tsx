@@ -1,5 +1,8 @@
+import { useTranslations } from "next-intl";
+
 function Home() {
-  return ( <>Home</> );
+  const t = useTranslations();
+  return ( <>{t('hello')}</> );
 }
 
 export default Home;
