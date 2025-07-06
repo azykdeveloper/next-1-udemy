@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 
 function Home() {
   const t = useTranslations();
-  return ( <>{t('hello')}</> );
+  return ( <>Assalom alaykum</> );
 }
 
 export default Home;

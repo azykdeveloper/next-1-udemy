@@ -1,3 +1,8 @@
 {
-  "hello": "Salom"
+  "NAVBAR": {
+    "navLink1": "Bosh sahifa",
+    "navLink2": "Kurslar",
+    "navLink3": "Bloglar",
+    "navLink4": "Aloqa"
+  }
 }

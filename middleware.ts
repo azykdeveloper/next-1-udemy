@@ -1,8 +1,18 @@
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
-export default createMiddleware(routing);
+const handleI18nRouting = createMiddleware(routing);
+
+const isProtectedRoute = createRouteMatcher("/");
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) await auth.protect();
+
+  return handleI18nRouting(req);
+});
 
 export const config = {
-  matcher: ["/", "/uz", "/en", "/ru", "/tr"], // At this line, define into the matcher all the availables language you have defined into routing.ts
+  // Match only internationalized pathnames
+  matcher: ["/", "/:locale"],
 };

@@ -1,3 +1,4 @@
+'use client'
 
 import AppLogo from "@/components/shared/AppLogo";
 import { ModeToggle } from "@/components/shared/ModeToggle";
@@ -7,8 +8,14 @@ import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
 import AppSearch from "./AppSearch";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, UserProfile } from "@clerk/nextjs";
+import { useTheme } from "next-themes";
+import { dark } from "@clerk/themes";
+import { useTranslations } from "next-intl";
 
 function AppNavbar() {
+  const { resolvedTheme } = useTheme()
+  const t = useTranslations("NAVBAR")
   return (
     <div className="fixed inset-0 z-50 h-20 bg-background/70 backdrop-blur-xl">
       <div className="container mx-auto flex h-full max-w-7xl items-center justify-between  max-md:px-3">
@@ -23,7 +30,7 @@ function AppNavbar() {
                 href={link.route}
                 className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             ))}
           </div>
@@ -33,17 +40,43 @@ function AppNavbar() {
         <div className="flex items-center gap-3">
           <div className="flex items-center border-r pr-3 gap-2">
             <AppSearch />
-            <Button size={"icon"} variant={"ghost"} >
+            <Button size={"icon"} variant={"ghost"}>
               <ShoppingCart />
             </Button>
             <LanguageDropdown />
             <ModeToggle />
           </div>
 
-          <Button className="rounded-full" variant={"outline"}>
-            Login
-          </Button>
-          <Button className="rounded-full">Sign Up</Button>
+          <SignedIn>
+            <UserButton
+              appearance={{
+                baseTheme: resolvedTheme === "dark" ? dark : undefined,
+              }}
+              userProfileProps={{appearance: {
+                baseTheme: resolvedTheme === "dark" ? dark : undefined,
+              }}}
+            />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton
+              appearance={{
+                baseTheme: resolvedTheme === "dark" ? dark : undefined,
+              }}
+              mode="modal"
+            >
+              <Button className="rounded-full" variant={"outline"}>
+                Login
+              </Button>
+            </SignInButton>
+            <SignUpButton
+              appearance={{
+                baseTheme: resolvedTheme === "dark" ? dark : undefined,
+              }}
+              mode="modal"
+            >
+              <Button className="rounded-full">Sign Up</Button>
+            </SignUpButton>
+          </SignedOut>
         </div>
       </div>
     </div>
