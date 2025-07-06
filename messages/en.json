@@ -3,6 +3,15 @@
     "navLink1": "Home",
     "navLink2": "Courses",
     "navLink3": "Blogs",
-    "navLink4": "Contact"
+    "navLink4": "Contact",
+
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "HERO": {
+    "title": "Gain the skills to manage your career",
+    "subtitle": "Free online courses from the world's top experts. Join 17 million learners today",
+    "btn1": "Learn More",
+    "btn2": "Blogs"
   }
 }

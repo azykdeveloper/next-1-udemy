@@ -3,6 +3,15 @@
     "navLink1": "Bosh sahifa",
     "navLink2": "Kurslar",
     "navLink3": "Bloglar",
-    "navLink4": "Aloqa"
+    "navLink4": "Aloqa",
+
+    "signIn": "Kirish",
+    "signUp": "Ro'yxatdan o'tish"
+  },
+  "HERO": {
+    "title": "Keryerangizni boshqarish uchun ko'nikmalarga ega bo'ling",
+    "subtitle": "Dunyoning eng yuqori mutaxasislaridan bepul onlayn kurslar. Bugun 17 million o'rganuvchiga qo'shiling",
+    "btn1": "Batafsil ma'lumot",
+    "btn2": "Bloglar"
   }
 }

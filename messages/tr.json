@@ -3,6 +3,15 @@
     "navLink1": "Anasayfa",
     "navLink2": "Kurslar",
     "navLink3": "Bloglar",
-    "navLink4": "İletişim"
+    "navLink4": "İletişim",
+
+    "signIn": "Giriş",
+    "signUp": "Kayıt Ol"
+  },
+  "HERO": {
+    "title": "Kariyerinizi yönetmek için gereken becerileri edinin",
+    "subtitle": "Dünyanın en iyi uzmanlarından ücretsiz çevrimiçi kurslar. Bugün 17 milyon öğrenciye katılın",
+    "btn1": "Daha fazla bilgi",
+    "btn2": "Bloglar"
   }
 }
