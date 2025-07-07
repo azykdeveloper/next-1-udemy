@@ -7,7 +7,7 @@ import { navLinks } from "@/constants";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
-import AppSearch from "../shared/AppSearch";
+import AppSearch from "../../../../components/shared/AppSearch";
 import {
   SignedIn,
   SignedOut,
@@ -18,14 +18,14 @@ import {
 import { useTheme } from "next-themes";
 import { dark } from "@clerk/themes";
 import { useTranslations } from "next-intl";
-import NavbarSheet from "../shared/NavbarSheet";
+import NavbarSheet from "../../../../components/shared/NavbarSheet";
 
 function AppNavbar() {
   const { resolvedTheme } = useTheme();
   const t = useTranslations("NAVBAR");
   return (
     <div className="fixed inset-0 z-50 h-20 bg-background/70 backdrop-blur-xl">
-      <div className="container px-3 mx-auto flex h-full max-w-7xl items-center justify-between  ">
+      <div className="container px-5 mx-auto flex h-full max-w-7xl items-center justify-between  ">
         {/* Left side */}
         <div className="flex items-center gap-4">
           <AppLogo />

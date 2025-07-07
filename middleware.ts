@@ -4,7 +4,7 @@ import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createMiddleware(routing);
 
-const isProtectedRoute = createRouteMatcher("/");
+const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) await auth.protect();
@@ -14,5 +14,5 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/", "/:locale"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
