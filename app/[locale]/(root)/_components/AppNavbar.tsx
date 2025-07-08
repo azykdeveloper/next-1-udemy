@@ -19,10 +19,13 @@ import { useTheme } from "next-themes";
 import { dark } from "@clerk/themes";
 import { useTranslations } from "next-intl";
 import NavbarSheet from "../../../../components/shared/NavbarSheet";
+import { usePathname } from "@/i18n/routing";
 
 function AppNavbar() {
   const { resolvedTheme } = useTheme();
   const t = useTranslations("NAVBAR");
+  const pathname = usePathname();
+
   return (
     <div className="fixed inset-0 z-50 h-20 bg-background/70 backdrop-blur-xl">
       <div className="container px-5 mx-auto flex h-full max-w-7xl items-center justify-between  ">
@@ -31,15 +34,23 @@ function AppNavbar() {
           <AppLogo />
 
           <div className="md:flex hidden items-center gap-5 border-l pl-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.route}
-                href={link.route}
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                {t(link.label)}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.route;
+
+              return (
+                <Link
+                  key={link.route}
+                  href={link.route}
+                  className={`font-medium transition-colors duration-200 hover:text-foreground ${
+                    isActive
+                      ? "text-foreground font-semibold"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {t(link.label)}
+                </Link>
+              );
+            })}
           </div>
         </div>
 

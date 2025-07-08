@@ -7,6 +7,7 @@ import { getMessages } from "next-intl/server";
 import { ClerkProvider } from "@clerk/nextjs";
 import { localization } from "@/lib/utils";
 import { ChildProps } from "@/types";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -32,14 +33,18 @@ interface Props extends ChildProps {
   params: { locale: string };
 }
 
-export default async function Layout({children, params: {locale}}: Props) {
-  
+export default async function Layout({ children, params }: Props) {
+  const { locale } = params;
+
   const messages = await getMessages();
   const local = localization(locale);
   return (
     <ClerkProvider localization={local}>
-      <html suppressHydrationWarning lang={locale} >
-        <body suppressHydrationWarning className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}        >
+      <html suppressHydrationWarning lang={locale} className="no-scrollbar">
+        <body
+          suppressHydrationWarning
+          className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
+        >
           <NextIntlClientProvider messages={messages}>
             <ThemeProvider
               attribute="class"
@@ -48,6 +53,7 @@ export default async function Layout({children, params: {locale}}: Props) {
               disableTransitionOnChange
             >
               <main>{children}</main>
+              <Toaster />
             </ThemeProvider>
           </NextIntlClientProvider>
         </body>
