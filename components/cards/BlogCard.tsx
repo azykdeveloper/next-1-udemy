@@ -4,7 +4,7 @@ import { CalendarDays, Clock, Dot, Layers2, Minus, Tag } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { getReadingTime } from "@/lib/utils";
-  import {format} from "date-fns"
+import {format} from "date-fns"
 
 function BlogCard(blog: IBlog) {
   return (
