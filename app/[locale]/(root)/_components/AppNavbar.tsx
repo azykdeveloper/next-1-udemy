@@ -4,7 +4,7 @@ import AppLogo from "@/components/shared/AppLogo";
 import { ModeToggle } from "@/components/shared/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants";
-import { ShoppingCart } from "lucide-react";
+import { DotIcon, NotebookPen, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
 import AppSearch from "../../../../components/shared/AppSearch";
@@ -75,7 +75,17 @@ function AppNavbar() {
                   baseTheme: resolvedTheme === "dark" ? dark : undefined,
                 },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  label="Instructor"
+                  labelIcon={<NotebookPen className="size-3.5" />}
+                  href="/instructor"
+                />
+                <UserButton.Action label="manageAccount" />
+                <UserButton.Action label="signOut" />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
           <SignedOut>
             <SignInButton
