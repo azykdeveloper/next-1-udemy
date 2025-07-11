@@ -25,8 +25,6 @@ import { courseCategory, courseLanguage, courseLevels } from "@/constants";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { ChangeEvent, useState } from "react";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { storage } from "@/lib/firebase";
 import { ImageDown } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import Image from "next/image";
@@ -34,6 +32,12 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { createCourse } from "@/actions/course.action";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 function CourseFieldsForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,28 +52,42 @@ function CourseFieldsForm() {
     defaultValues: defaultVal,
   });
 
-  function onUpload(e: ChangeEvent<HTMLInputElement>) {
+  async function onUpload(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
-    if (!files) return null;
+    if (!files || files.length === 0) return;
+
     const file = files[0];
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${uuidv4()}.${fileExt}`;
+    const filePath = `course-images/${fileName}`;
 
-    const reader = new FileReader();
+    setIsLoading(true);
 
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      const refs = ref(storage, `/praktikum/course/${uuidv4()}`);
-      const result = e.target?.result as string;
-      const promise = uploadString(refs, result, "data_url").then(() => {
-        getDownloadURL(refs).then((url) => setPreviewImage(url));
-      });
+    const { error: uploadError } = await supabase.storage
+      .from("udemy-pics") // bu sizning bucket nomingiz
+      .upload(filePath, file);
 
-      toast.promise(promise, {
-        loading: "Uploading...",
-        success: "Successfully uploaded!",
-        error: "Something went wrong!",
-      });
-    };
+    if (uploadError) {
+      toast.error("❌ Rasm yuklanmadi: " + uploadError.message);
+      setIsLoading(false);
+      return;
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("udemy-pics")
+      .getPublicUrl(filePath);
+
+    if (!urlData?.publicUrl) {
+      toast.error("❌ URL olinmadi");
+      setIsLoading(false);
+      return;
+    }
+
+    setPreviewImage(urlData.publicUrl);
+    toast.success("✅ Rasm muvaffaqiyatli yuklandi!");
+    setIsLoading(false);
   }
+
 
   function onSubmit(values: z.infer<typeof courseSchema>) {
     if (!previewImage) {
@@ -84,7 +102,7 @@ function CourseFieldsForm() {
         currentPrice: +currentPrice,
         previewImage,
       },
-      user?.id as string
+      // user?.id as string
     )
       .then(() => {
         form.reset();
@@ -327,6 +345,7 @@ function CourseFieldsForm() {
               <Input
                 className="bg-secondary"
                 type="file"
+                
                 disabled={isLoading}
                 onChange={onUpload}
               />

@@ -15,7 +15,7 @@ function CreateCourse() {
           Basic information
         </h3>
         <Separator className="my-3" />
-        {/* <CourseFieldsForm /> */}
+        <CourseFieldsForm />
       </div>
     </>
   );
