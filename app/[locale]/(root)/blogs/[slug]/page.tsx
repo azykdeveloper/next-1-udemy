@@ -6,7 +6,13 @@ import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import ShareBtns from "../../_components/ShareBtns";
 import parse from 'html-react-parser';
-async function BlogPage({ params }: { params: { slug: string } }) {
+
+
+async function BlogPage({
+  params,
+}: {
+  params: { slug: string; locale: string };
+}) {
   const blog = await getDetailedBlog(params.slug);
 
   return (
