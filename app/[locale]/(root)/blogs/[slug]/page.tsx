@@ -5,17 +5,17 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import ShareBtns from "../../_components/ShareBtns";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
-type BlogPageProps = {
+export default async function BlogPage({
+  params,
+}: {
   params: {
     slug: string;
-    locale: string;
   };
-};
-
-export default async function BlogPage({ params }: BlogPageProps) {
-  const blog = await getDetailedBlog(params.slug);
+}) {
+  const { slug } = params;
+  const blog = await getDetailedBlog(slug);
 
   return (
     <div className="container mx-auto max-w-5xl pt-[15vh]">
