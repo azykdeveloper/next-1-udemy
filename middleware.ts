@@ -4,10 +4,18 @@ import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createMiddleware(routing);
 
+// 👇 Auth kerak bo‘lgan yo‘llar
 const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
 
+// 👇 Auth dan ozod qilinadigan yo‘llar
+const isIgnoredRoute = createRouteMatcher([
+  "/:locale/api/webhook", // 👈 bu yerda webhook route ni ignore qilyapmiz
+]);
+
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+  if (isProtectedRoute(req) && !isIgnoredRoute(req)) {
+    await auth.protect();
+  }
 
   return handleI18nRouting(req);
 });
