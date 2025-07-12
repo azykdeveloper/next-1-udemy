@@ -3,7 +3,7 @@
 import InstructorCard from "@/components/cards/InstructorCard";
 import { Button } from "@/components/ui/button";
 import { instructors } from "@/constants";
-import { IInstructor } from "@/types";
+// import { IInstructor } from "@/types";
 import { MoveUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";

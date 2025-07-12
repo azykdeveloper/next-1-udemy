@@ -1,15 +1,15 @@
 'use client'
 
 import { ICourse } from "@/types";
-import { useTranslations } from "next-intl";
+// import { useTranslations } from "next-intl";
 import Image from "next/image";
-import ReactStars from 'react-stars';
+// import ReactStars from 'react-stars';
 import {PiStudentBold} from "react-icons/pi";
 import { Clock3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function CourseHero(course: ICourse) {
-  const t = useTranslations();
+  // const t = useTranslations();
   return (
     <>
       <h1 className="font-space-grotesk text-4xl font-bold">{course.title}</h1>

@@ -2,8 +2,9 @@
 
 import ReactStars from "react-stars";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { IReview } from "@/app.types";
 
-function ReviewCard({ review } : any) {
+function ReviewCard({ review } : {review: IReview}) {
   // const { lng } = useParams();
   // const t = useTranslate();
 

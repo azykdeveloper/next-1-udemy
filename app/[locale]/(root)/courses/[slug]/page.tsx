@@ -1,8 +1,8 @@
 import TopBar from "@/components/shared/TopBar";
 import { Separator } from "@/components/ui/separator";
-import CourseDescription from "../../_components/CourseDescription";
-import CourseHero from "../../_components/CourseHero";
-import CourseOverview from "../../_components/CourseOverview";
+// import CourseDescription from "../../_components/CourseDescription";
+// import CourseHero from "../../_components/CourseHero";
+// import CourseOverview from "../../_components/CourseOverview";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { courses } from "@/constants";
 import CourseCard from "@/components/cards/CourseCard";

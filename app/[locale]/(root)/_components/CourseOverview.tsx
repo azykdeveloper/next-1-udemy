@@ -1,11 +1,10 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import { ICourse } from "@/types";
-import { BadgeCheck, CalendarRange, Dot, ListOrdered, MonitorPlay } from "lucide-react";
+import { CalendarRange, ListOrdered, MonitorPlay } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-function CourseOverview(course: ICourse) {
+function CourseOverview() {
   const t = useTranslations();
   return (
     <>

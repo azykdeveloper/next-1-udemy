@@ -4,7 +4,7 @@ import AppLogo from "@/components/shared/AppLogo";
 import { ModeToggle } from "@/components/shared/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants";
-import { DotIcon, NotebookPen, ShoppingCart } from "lucide-react";
+import { NotebookPen, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
 import AppSearch from "../../../../components/shared/AppSearch";

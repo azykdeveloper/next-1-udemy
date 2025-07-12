@@ -7,7 +7,7 @@ import {
   profileNavLinks,
 } from "@/constants";
 import { LogOut } from "lucide-react";
-import { useTranslations } from "next-intl";
+// import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -17,7 +17,7 @@ interface Props {
 
 function InstructorSidebar({ page }: Props) {
   const pathname = usePathname();
-  const t = useTranslations();
+  // const t = useTranslations();
 
   const getNavLinks = () => {
     if (page === "admin") {

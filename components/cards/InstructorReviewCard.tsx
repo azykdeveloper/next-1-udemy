@@ -7,23 +7,23 @@ import ReactStars from "react-stars";
 // import { IReview } from "@/app.types";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+// import { useState } from "react";
+// import { usePathname } from "next/navigation";
 // import { setFlag } from "@/actions/review.action";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 // import FillLoading from "../shared/fill-loading";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import { IReview } from "@/app.types";
 // import { sendNotification } from "@/actions/notification.action";
 
 interface Props {
-  // review: IReview;
-  review: any;
+  review: IReview;
   isProfile?: boolean;
   isAdmin?: boolean;
 }
 function InstructorReviewCard({ review, isProfile, isAdmin }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const pathname = usePathname();
 
   // const handleFlag = async () => {
   //   setIsLoading(true);

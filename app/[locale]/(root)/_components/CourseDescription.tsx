@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { ICourse } from "@/types";
 import { BarChart2, Clock, Languages, MonitorPlay, Infinity } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+// import Link from "next/link";
 import { GrCertificate } from "react-icons/gr";
 import { BiCategory } from "react-icons/bi";
 
@@ -13,7 +13,7 @@ interface Props {
   isPurchase: boolean;
 }
 
-function CourseDescription({ course, isPurchase }: Props) {
+function CourseDescription({ course }: Props) {
   const t = useTranslations();
   return (
     <div className="rounded-md border bg-secondary/50 p-4 shadow-lg dark:shadow-white/20 lg:sticky lg:top-24 lg:p-6">
