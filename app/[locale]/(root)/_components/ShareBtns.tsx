@@ -9,7 +9,8 @@ function ShareBtns() {
   const pathname = usePathname();
 
   const onCopy = () => {
-    const link = process.env.NEXT_PUBLIC_BASE_URL + pathname;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+    const link = baseUrl + pathname;
     navigator.clipboard
       .writeText(link)
       .then(() => toast.success("Copied to clipboard"));
