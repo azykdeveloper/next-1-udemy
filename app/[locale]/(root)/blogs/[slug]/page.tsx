@@ -7,14 +7,14 @@ import { Separator } from "@/components/ui/separator";
 import ShareBtns from "../../_components/ShareBtns";
 import parse from 'html-react-parser';
 
-
-async function BlogPage({
-  params,
-}: {
+type BlogPageProps = {
   params: {
     slug: string;
+    locale: string;
   };
-}) {
+};
+
+export default async function BlogPage({ params }: BlogPageProps) {
   const blog = await getDetailedBlog(params.slug);
 
   return (
@@ -88,5 +88,3 @@ async function BlogPage({
     </div>
   );
 }
-
-export default BlogPage;
