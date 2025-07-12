@@ -9,7 +9,7 @@ const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
 
 // 👇 Auth dan ozod qilinadigan yo‘llar
 const isIgnoredRoute = createRouteMatcher([
-  "/:locale/api/webhook", // 👈 bu yerda webhook route ni ignore qilyapmiz
+  "/en/api/webhook", // 👈 bu yerda webhook route ni ignore qilyapmiz
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
