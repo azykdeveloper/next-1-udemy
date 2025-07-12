@@ -11,7 +11,9 @@ import parse from 'html-react-parser';
 async function BlogPage({
   params,
 }: {
-  params: { slug: string; locale: string };
+  params: {
+    slug: string;
+  };
 }) {
   const blog = await getDetailedBlog(params.slug);
 
