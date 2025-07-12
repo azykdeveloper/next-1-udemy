@@ -23,7 +23,7 @@ export function LanguageDropdown() {
   const handleChange = (newLocale: string) => {
     if (newLocale === locale) return;
 
-    const segments = pathname.split("/");
+    const segments = (pathname ?? "").split("/");
     segments[1] = newLocale; // `/uz/...` → `/en/...` uchun
     const newPath = segments.join("/") || "/";
 
