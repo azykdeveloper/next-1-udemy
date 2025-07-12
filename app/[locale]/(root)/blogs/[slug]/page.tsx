@@ -7,13 +7,14 @@ import { Separator } from "@/components/ui/separator";
 import ShareBtns from "../../_components/ShareBtns";
 import parse from "html-react-parser";
 
-export default async function BlogPage({
-  params,
-}: {
+interface BlogPageProps {
   params: {
     slug: string;
+    locale: string;
   };
-}) {
+}
+
+const BlogPage = async ({ params }: BlogPageProps) => {
   const { slug } = params;
   const blog = await getDetailedBlog(slug);
 
@@ -49,8 +50,8 @@ export default async function BlogPage({
       <Image
         src={blog.image.url}
         alt="alt"
-        width={`1120`}
-        height={`595`}
+        width={1120}
+        height={595}
         className="mt-4 rounded-md"
       />
 
@@ -72,8 +73,8 @@ export default async function BlogPage({
         <Image
           src={blog.author.image.url}
           alt="author"
-          width="155"
-          height="155"
+          width={155}
+          height={155}
           className="rounded-md max-md:self-start"
         />
         <div className="flex flex-1 flex-col space-y-4">
@@ -87,4 +88,6 @@ export default async function BlogPage({
       </div>
     </div>
   );
-}
+};
+
+export default BlogPage;
