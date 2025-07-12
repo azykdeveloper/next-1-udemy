@@ -11,13 +11,11 @@ import { JSX } from "react";
 interface BlogPageProps {
   params: {
     slug: string;
-    locale: string;
   };
 }
 
 const BlogPage = async ({ params }: BlogPageProps): Promise<JSX.Element> => {
-  const { slug } = params;
-  const blog = await getDetailedBlog(slug);
+  const blog = await getDetailedBlog(params.slug);
 
   return (
     <div className="container mx-auto max-w-5xl pt-[15vh]">
