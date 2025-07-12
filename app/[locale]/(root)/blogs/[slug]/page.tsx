@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import ShareBtns from "../../_components/ShareBtns";
 import parse from "html-react-parser";
+import { JSX } from "react";
 
 interface BlogPageProps {
   params: {
@@ -14,7 +15,7 @@ interface BlogPageProps {
   };
 }
 
-const BlogPage = async ({ params }: BlogPageProps) => {
+const BlogPage = async ({ params }: BlogPageProps): Promise<JSX.Element> => {
   const { slug } = params;
   const blog = await getDetailedBlog(slug);
 
