@@ -1,9 +1,9 @@
 import { createUser, updateUser } from "@/actions/user.action";
-import { WebhookEvent } from "@clerk/nextjs/server";
+// import { WebhookEvent } from "@clerk/nextjs/server";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
-import { headers } from "next/headers";
+// import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { Webhook } from "svix";
+// import { Webhook } from "svix";
 
 export async function POST(req: NextRequest) {
   // const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
