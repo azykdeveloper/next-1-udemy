@@ -9,12 +9,20 @@ import CourseCard from "@/components/cards/CourseCard";
 import { ICourse } from "@/types";
 import { getTranslations } from "next-intl/server";
 
-async function CoursePage() {
+interface Props {
+  params: {
+    slug: string;
+    locale: string; // kerak bo‘lsa
+  };
+}
+
+async function CoursePage({ params }: Props) {
   const t = await getTranslations()
+  const { slug } = params;
   return (
     <>
       <TopBar label="allCourses" extra="Full course ReactJs" />
-
+      <h1>{slug}</h1>
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-3 gap-4 pt-12">
           <div className="col-span-2 max-lg:col-span-3">
