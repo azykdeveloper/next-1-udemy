@@ -9,15 +9,15 @@ import CourseCard from "@/components/cards/CourseCard";
 import { ICourse } from "@/types";
 import { getTranslations } from "next-intl/server";
 
-interface PageProps {
+
+
+export default async function CoursePage({
+  params,
+}: {
   params: {
     slug: string;
-    locale: string;
   };
-}
-
-
-async function CoursePage({ params }: PageProps) {
+}) {
   const t = await getTranslations();
   const { slug } = params;
 
@@ -61,4 +61,3 @@ async function CoursePage({ params }: PageProps) {
   );
 }
 
-export default CoursePage;
