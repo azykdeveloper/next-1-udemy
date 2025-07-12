@@ -1,12 +1,10 @@
 'use client'
 
 import { ChildProps } from "@/types";
-import dynamic from "next/dynamic";
 import AppFooter from "./_components/AppFooter";
+import AppNavbar from "./_components/AppNavbar";
 
-const AppNavbar = dynamic(() => import("./_components/AppNavbar"), {
-  ssr: false,
-});
+
 function Layout({ children }: ChildProps) {
   return (
     <>
