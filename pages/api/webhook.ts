@@ -1,52 +1,46 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Webhook } from "svix";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import { buffer } from "micro";
 import { createUser, updateUser } from "@/actions/user.action";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { headers } from "next/headers";
+import { Webhook } from "svix";
 
-// 🔒 Disabling body parsing by Next.js (Clerk requires raw body)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export async function POST(req: Request) {
+  const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
-
-  const WEBHOOK_SECRET = process.env.SIGNING_SECRET;
   if (!WEBHOOK_SECRET) {
-    return res.status(500).json({ message: "Missing Clerk Webhook Secret" });
+    throw new Error(
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+    );
   }
 
-  const payload = (await buffer(req)).toString(); // Raw body string
-  const headers = req.headers;
+  const headerPayload = await headers();
+  const svixId = headerPayload.get("svix-id");
+  const svixTimestamp = headerPayload.get("svix-timestamp");
+  const svixSignature = headerPayload.get("svix-signature");
 
-  const svix_id = headers["svix-id"] as string;
-  const svix_timestamp = headers["svix-timestamp"] as string;
-  const svix_signature = headers["svix-signature"] as string;
-
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    return res.status(400).json({ message: "Missing Svix headers" });
+  if (!svixId || !svixTimestamp || !svixSignature) {
+    return new Response("Error occured -- no svix headers", {
+      status: 400,
+    });
   }
+
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
 
   const wh = new Webhook(WEBHOOK_SECRET);
+
   let evt: WebhookEvent;
 
   try {
-    evt = wh.verify(payload, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
+    evt = wh.verify(body, {
+      "svix-id": svixId,
+      "svix-timestamp": svixTimestamp,
+      "svix-signature": svixSignature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Webhook signature verification failed", err);
-    return res.status(400).json({ message: "Invalid signature" });
+    console.error("Error verifying webhook:", err);
+    return new Response("Error occured", {
+      status: 400,
+    });
   }
 
   const eventType = evt.type;
@@ -61,7 +55,8 @@ export default async function handler(
       picture: image_url,
     });
 
-    return res.status(200).json({ message: "User created", user });
+
+    return Response.json({ message: "OK", user });
   }
 
   if (eventType === "user.updated") {
@@ -76,8 +71,6 @@ export default async function handler(
       },
     });
 
-    return res.status(200).json({ message: "User updated", user });
+    return Response.json({ message: "OK", user });
   }
-
-  return res.status(200).json({ message: "Event received" });
 }

@@ -4,16 +4,22 @@ import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createMiddleware(routing);
 
-// 👇 Auth kerak bo‘lgan yo‘llar
-const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
+// Auth kerak bo'lgan yo'llar
+const isProtectedRoute = createRouteMatcher(["/locale/dashboard(.*)"]);
 
-// 👇 Auth dan ozod qilinadigan yo‘llar
+// Auth dan ozod qilinadigan yo'llar
 const isIgnoredRoute = createRouteMatcher([
-  "/api/webhook", // 👈 bu yerda webhook route ni ignore qilyapmiz
+  "/api/webhook", // Webhook route ni to'liq ignore qilish
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req) && !isIgnoredRoute(req)) {
+  // Webhook route uchun authentication ni to'liq bypass qilish
+  if (isIgnoredRoute(req)) {
+    return handleI18nRouting(req);
+  }
+
+  // Faqat protected route'lar uchun authentication talab qilish
+  if (isProtectedRoute(req)) {
     await auth.protect();
   }
 
@@ -22,5 +28,5 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/((?!api/webhook|.+\\.[\\w]+$|_next).*)", "/", "/(trpc)(.*)"],
+  matcher: ["/((?!api/webhook|.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
