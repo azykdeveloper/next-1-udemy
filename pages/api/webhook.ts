@@ -1,7 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { buffer } from "micro";
 import { createUser, updateUser } from "@/actions/user.action";
+
+// 🔒 Disabling body parsing by Next.js (Clerk requires raw body)
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,31 +21,31 @@ export default async function handler(
 
   const WEBHOOK_SECRET = process.env.SIGNING_SECRET;
   if (!WEBHOOK_SECRET) {
-    return res.status(500).json({ message: "Missing Webhook Secret" });
+    return res.status(500).json({ message: "Missing Clerk Webhook Secret" });
   }
 
-  const svixId = req.headers["svix-id"] as string;
-  const svixTimestamp = req.headers["svix-timestamp"] as string;
-  const svixSignature = req.headers["svix-signature"] as string;
+  const payload = (await buffer(req)).toString(); // Raw body string
+  const headers = req.headers;
 
-  if (!svixId || !svixTimestamp || !svixSignature) {
+  const svix_id = headers["svix-id"] as string;
+  const svix_timestamp = headers["svix-timestamp"] as string;
+  const svix_signature = headers["svix-signature"] as string;
+
+  if (!svix_id || !svix_timestamp || !svix_signature) {
     return res.status(400).json({ message: "Missing Svix headers" });
   }
 
-  const payload = req.body;
-  const body = JSON.stringify(payload);
-
   const wh = new Webhook(WEBHOOK_SECRET);
-
   let evt: WebhookEvent;
+
   try {
-    evt = wh.verify(body, {
-      "svix-id": svixId,
-      "svix-timestamp": svixTimestamp,
-      "svix-signature": svixSignature,
+    evt = wh.verify(payload, {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Webhook verification failed", err);
+    console.error("Webhook signature verification failed", err);
     return res.status(400).json({ message: "Invalid signature" });
   }
 
@@ -71,5 +79,5 @@ export default async function handler(
     return res.status(200).json({ message: "User updated", user });
   }
 
-  return res.status(200).json({ message: "Event ignored" });
+  return res.status(200).json({ message: "Event received" });
 }

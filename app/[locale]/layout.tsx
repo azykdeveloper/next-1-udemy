@@ -39,7 +39,10 @@ export default async function Layout({ children, params }: Props) {
   const messages = await getMessages();
   const local = localization(locale);
   return (
-    <ClerkProvider localization={local}>
+    <ClerkProvider
+      localization={local}
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
       <html suppressHydrationWarning lang={locale} className="no-scrollbar">
         <body
           suppressHydrationWarning
