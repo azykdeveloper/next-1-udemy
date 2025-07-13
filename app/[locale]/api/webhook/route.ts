@@ -2,7 +2,7 @@ import { createUser, updateUser } from "@/actions/user.action";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { Webhook } from "svix";
+import {Webhook} from "svix"
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
@@ -49,42 +49,30 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await createUser({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      });
+    const user = await createUser({
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      fullName: `${first_name} ${last_name}`,
+      picture: image_url,
+    });
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      console.error(error);
-      return new Response("Error occured", {
-        status: 400,
-      });
-    }
+
+    return NextResponse.json({ message: "OK", user });
   }
 
   if (eventType === "user.updated") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await updateUser({
-        clerkId: id,
-        updatedData: {
-          email: email_addresses[0].email_address,
-          fullName: `${first_name} ${last_name}`,
-          picture: image_url,
-        },
-      });
+    const user = await updateUser({
+      clerkId: id,
+      updatedData: {
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      },
+    });
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      console.error(error);
-      return new Response("Error occured", {
-        status: 400,
-      });
-    }
+
+    return NextResponse.json({ message: "OK", user });
   }
 }
