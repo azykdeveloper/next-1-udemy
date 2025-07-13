@@ -1,52 +1,44 @@
-// import { sendNotification } from "@/actions/notification.action";
-import { createUser, updateUser } from "@/actions/user.action";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import { headers } from "next/headers";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { createUser, updateUser } from "@/actions/user.action";
 
-export async function POST(req: Request) {
-  const SIGNING_SECRET = process.env.SIGNING_SECRET;
-
-  if (!SIGNING_SECRET) {
-    throw new Error(
-      "Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local"
-    );
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  // Create new Svix instance with secret
-  const wh = new Webhook(SIGNING_SECRET);
-
-  // Get headers
-  const headerPayload = await headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
-
-  // If there are no headers, error out
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error: Missing Svix headers", {
-      status: 400,
-    });
+  const WEBHOOK_SECRET = process.env.SIGNING_SECRET;
+  if (!WEBHOOK_SECRET) {
+    return res.status(500).json({ message: "Missing Webhook Secret" });
   }
 
-  // Get body
-  const payload = await req.json();
+  const svixId = req.headers["svix-id"] as string;
+  const svixTimestamp = req.headers["svix-timestamp"] as string;
+  const svixSignature = req.headers["svix-signature"] as string;
+
+  if (!svixId || !svixTimestamp || !svixSignature) {
+    return res.status(400).json({ message: "Missing Svix headers" });
+  }
+
+  const payload = req.body;
   const body = JSON.stringify(payload);
 
-  let evt: WebhookEvent;
+  const wh = new Webhook(WEBHOOK_SECRET);
 
-  // Verify payload with headers
+  let evt: WebhookEvent;
   try {
     evt = wh.verify(body, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
+      "svix-id": svixId,
+      "svix-timestamp": svixTimestamp,
+      "svix-signature": svixSignature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Error: Could not verify webhook:", err);
-    return new Response("Error: Verification error", {
-      status: 400,
-    });
+    console.error("Webhook verification failed", err);
+    return res.status(400).json({ message: "Invalid signature" });
   }
 
   const eventType = evt.type;
@@ -54,47 +46,30 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await createUser({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      });
+    const user = await createUser({
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      fullName: `${first_name} ${last_name}`,
+      picture: image_url,
+    });
 
-      return new Response(JSON.stringify(user), {
-        status: 201,
-      });
-    } catch (error) {
-      console.error("Error: Failed to store event in the database:", error);
-      return new Response("Error: Failed to store event in the database", {
-        status: 500,
-      });
-    }
+    return res.status(200).json({ message: "User created", user });
   }
 
   if (eventType === "user.updated") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await updateUser({
-        clerkId: id,
-        updatedData: {
-          email: email_addresses[0].email_address,
-          fullName: `${first_name} ${last_name}`,
-          picture: image_url,
-        },
-      });
-      return new Response(JSON.stringify(user), {
-        status: 201,
-      });
-    } catch (error) {
-      console.error("Error: Failed to store event in the database:", error);
-      return new Response("Error: Failed to store event in the database", {
-        status: 500,
-      });
-    }
+    const user = await updateUser({
+      clerkId: id,
+      updatedData: {
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      },
+    });
+
+    return res.status(200).json({ message: "User updated", user });
   }
 
-  return new Response("Webhook received", { status: 200 });
+  return res.status(200).json({ message: "Event ignored" });
 }
