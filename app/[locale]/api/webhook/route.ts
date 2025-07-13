@@ -49,29 +49,42 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    const user = await createUser({
-      clerkId: id,
-      email: email_addresses[0].email_address,
-      fullName: `${first_name} ${last_name}`,
-      picture: image_url,
-    });
+    try {
+      const user = await createUser({
+        clerkId: id,
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      });
 
-
-    return NextResponse.json({ message: "OK", user });
+      return NextResponse.json({ message: "OK", user });
+    } catch (error) {
+      console.error(error);
+      return new Response("Error occured", {
+        status: 400,
+      });
+    }
   }
 
   if (eventType === "user.updated") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    const user = await updateUser({
-      clerkId: id,
-      updatedData: {
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      },
-    });
+    try {
+      const user = await updateUser({
+        clerkId: id,
+        updatedData: {
+          email: email_addresses[0].email_address,
+          fullName: `${first_name} ${last_name}`,
+          picture: image_url,
+        },
+      });
 
-    return NextResponse.json({ message: "OK", user });
+      return NextResponse.json({ message: "OK", user });
+    } catch (error) {
+      console.error(error);
+      return new Response("Error occured", {
+        status: 400,
+      });
+    }
   }
 }
