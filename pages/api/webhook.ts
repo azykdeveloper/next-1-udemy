@@ -1,6 +1,7 @@
 import { createUser, updateUser } from "@/actions/user.action";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 export async function POST(req: Request) {
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
     });
 
 
-    return Response.json({ message: "OK", user });
+    return NextResponse.json({ message: "OK", user });
   }
 
   if (eventType === "user.updated") {
@@ -71,6 +72,6 @@ export async function POST(req: Request) {
       },
     });
 
-    return Response.json({ message: "OK", user });
+    return NextResponse.json({ message: "OK", user });
   }
 }

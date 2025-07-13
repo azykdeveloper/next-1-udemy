@@ -28,5 +28,5 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/((?!api/webhook|.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
