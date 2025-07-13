@@ -1,47 +1,52 @@
-import { createUser, updateUser } from "@/actions/user.action";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import { headers } from "next/headers";
-import { NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { buffer } from "micro";
+import { createUser, updateUser } from "@/actions/user.action";
 
-export async function POST(req: Request) {
+// 🔒 Disabling body parsing by Next.js (Clerk requires raw body)
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
-
   if (!WEBHOOK_SECRET) {
-    throw new Error(
-      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
-    );
+    return res.status(500).json({ message: "Missing Clerk Webhook Secret" });
   }
 
-  const headerPayload = await headers();
-  const svixId = headerPayload.get("svix-id");
-  const svixTimestamp = headerPayload.get("svix-timestamp");
-  const svixSignature = headerPayload.get("svix-signature");
+  const payload = (await buffer(req)).toString(); // Raw body string
+  const headers = req.headers;
 
-  if (!svixId || !svixTimestamp || !svixSignature) {
-    return new Response("Error occured -- no svix headers", {
-      status: 400,
-    });
+  const svix_id = headers["svix-id"] as string;
+  const svix_timestamp = headers["svix-timestamp"] as string;
+  const svix_signature = headers["svix-signature"] as string;
+
+  if (!svix_id || !svix_timestamp || !svix_signature) {
+    return res.status(400).json({ message: "Missing Svix headers" });
   }
-
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
 
   const wh = new Webhook(WEBHOOK_SECRET);
-
   let evt: WebhookEvent;
 
   try {
-    evt = wh.verify(body, {
-      "svix-id": svixId,
-      "svix-timestamp": svixTimestamp,
-      "svix-signature": svixSignature,
+    evt = wh.verify(payload, {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
-      status: 400,
-    });
+    console.error("Webhook signature verification failed", err);
+    return res.status(400).json({ message: "Invalid signature" });
   }
 
   const eventType = evt.type;
@@ -49,42 +54,30 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await createUser({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      });
+    const user = await createUser({
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      fullName: `${first_name} ${last_name}`,
+      picture: image_url,
+    });
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      console.error(error);
-      return new Response("Error occured", {
-        status: 400,
-      });
-    }
+    return res.status(200).json({ message: "User created", user });
   }
 
   if (eventType === "user.updated") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await updateUser({
-        clerkId: id,
-        updatedData: {
-          email: email_addresses[0].email_address,
-          fullName: `${first_name} ${last_name}`,
-          picture: image_url,
-        },
-      });
+    const user = await updateUser({
+      clerkId: id,
+      updatedData: {
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      },
+    });
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      console.error(error);
-      return new Response("Error occured", {
-        status: 400,
-      });
-    }
+    return res.status(200).json({ message: "User updated", user });
   }
+
+  return res.status(200).json({ message: "Event received" });
 }
