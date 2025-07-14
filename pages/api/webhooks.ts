@@ -50,16 +50,23 @@ export async function POST(req: NextRequest) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    const user = await createUser({
-      clerkId: id,
-      email: email_addresses[0].email_address,
-      fullName: `${first_name} ${last_name}`,
-      picture: image_url,
-    });
-    console.log("✅ Clerk user created:", id);
+    try {
+      const user = await createUser({
+        clerkId: id,
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      });
+      console.log("✅ Clerk user created:", id);
 
-    return NextResponse.json({ message: "OK", user });
+      return NextResponse.json({ message: "OK", user });
+    } catch (error) {
+      console.error("Error creating user:", error);
+      return new Response("Error occured", {
+        status: 400,
+      });
+    }
   }
-
+  
 }
 
