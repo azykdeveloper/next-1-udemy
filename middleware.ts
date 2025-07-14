@@ -12,15 +12,15 @@ const handleI18nRouting = createMiddleware(routing);
 const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
 
 // Auth'dan ozod route'lar
-const isIgnoredRoute = createRouteMatcher([
-  "/api/webhook",
-  "/:locale/api/webhook",
-]);
+// const isIgnoredRoute = createRouteMatcher([
+//   "/api/webhook",
+//   "/:locale/api/webhook",
+// ]);
 
 // Birlashtirilgan middleware
 export default clerkMiddleware(async (auth, req) => {
   // Auth'dan ozod route bo'lsa — hech narsa qilmang, lekin i18n ishlasin
-  if (isIgnoredRoute(req)) return handleI18nRouting(req);
+  // if (isIgnoredRoute(req)) return handleI18nRouting(req);
 
   // Auth kerak bo'lgan route
   if (isProtectedRoute(req)) {
