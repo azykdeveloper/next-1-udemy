@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
 
   const wh = new Webhook(WEBHOOK_SECRET);
 
-
   let evt: WebhookEvent;
 
   try {
@@ -50,19 +49,13 @@ export async function POST(req: NextRequest) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await createUser({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      });
+    const user = await createUser({
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      fullName: `${first_name} ${last_name}`,
+      picture: image_url,
+    });
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      return NextResponse.json({ error: "Error creating user: " + error });      
-    }
+    return NextResponse.json({ message: "OK", user });
   }
-  
 }
-
