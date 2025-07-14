@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({ message: "OK", user });
     } catch (error) {
-      return NextResponse.json({ error: "Error creating user" });      
+      return NextResponse.json({ error: "Error creating user: " + error });      
     }
   }
   
