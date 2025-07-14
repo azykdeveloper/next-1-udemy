@@ -48,24 +48,38 @@ export async function POST(req: NextRequest) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
+    // const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+
+    // try {
+    //   const user = await createUser({
+    //     clerkId: id,
+    //     email: email_addresses[0].email_address,
+    //     fullName: `${first_name} ${last_name}`,
+    //     picture: image_url,
+    //   });
+    //   console.log("✅ Clerk user created:", id);
+
+    //   return NextResponse.json({ message: "OK", user });
+    // } catch (error) {
+    //   console.error("Error creating user:", error);
+    //   return new Response("Error occured", {
+    //     status: 400,
+    //   });
+    // }
+
+
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      const user = await createUser({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        fullName: `${first_name} ${last_name}`,
-        picture: image_url,
-      });
-      console.log("✅ Clerk user created:", id);
+    console.log(
+      "User created:",
+      id,
+      email_addresses,
+      image_url,
+      first_name,
+      last_name
+    );
 
-      return NextResponse.json({ message: "OK", user });
-    } catch (error) {
-      console.error("Error creating user:", error);
-      return new Response("Error occured", {
-        status: 400,
-      });
-    }
+    return NextResponse.json({ message: "OK" });
   }
   
 }
