@@ -2,7 +2,7 @@ import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { createUser } from "@/actions/user.action";
+import { createUser, updateUser } from "@/actions/user.action";
 
 export async function POST(req: NextRequest) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
@@ -54,6 +54,21 @@ export async function POST(req: NextRequest) {
       email: email_addresses[0].email_address,
       fullName: `${first_name} ${last_name}`,
       picture: image_url,
+    });
+
+    return NextResponse.json({ message: "OK", user });
+  }
+
+  if (eventType === "user.updated") {
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+
+    const user = await updateUser({
+      clerkId: id,
+      updatedData: {
+        email: email_addresses[0].email_address,
+        fullName: `${first_name} ${last_name}`,
+        picture: image_url,
+      },
     });
 
     return NextResponse.json({ message: "OK", user });

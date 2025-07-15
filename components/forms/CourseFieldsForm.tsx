@@ -29,7 +29,7 @@ import { ImageDown } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-// import { useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { createCourse } from "@/actions/course.action";
 import { createClient } from "@supabase/supabase-js";
@@ -45,7 +45,7 @@ function CourseFieldsForm() {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
-  // const { user } = useUser();
+  const { user } = useUser();
 
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
@@ -102,7 +102,7 @@ function CourseFieldsForm() {
         currentPrice: +currentPrice,
         previewImage,
       },
-      // user?.id as string
+      user?.id as string
     )
       .then(() => {
         form.reset();
