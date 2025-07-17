@@ -2,13 +2,21 @@ import { getCourseById } from "@/actions/course.action";
 import InstructorHeader from "../../_components/InstructorHeader";
 import CourseActions from "./_components/CourseActions";
 import { Separator } from "@/components/ui/separator";
+import CourseFields from "./_components/CourseFields";
+import CourseDescription from "./_components/CourseDescription";
+import CourseInformation from "./_components/CourseInformation";
+import SelectFields from "./_components/SelectFields";
+import CoursePrice from "./_components/CoursePrice";
+import { Images, LayoutPanelLeft } from "lucide-react";
+import CourseSections from "./_components/CourseSections";
+import PreviewImage from "./_components/PreviewImage";
 
 async function Page({ params }: { params: { courseId: string } }) {
   const courseJSON = await getCourseById(params.courseId);
-  // const sectionsJSON = await getSections(params.courseId);
+  const sectionsJSON = await getSections(params.courseId);
 
   const course = JSON.parse(JSON.stringify(courseJSON));
-  // const sections = JSON.parse(JSON.stringify(sectionsJSON));
+  const sections = JSON.parse(JSON.stringify(sectionsJSON));
 
   return (
     <>
@@ -26,33 +34,33 @@ async function Page({ params }: { params: { courseId: string } }) {
           <div className="flex items-center gap-2">
             <span className="font-space-grotesk text-3xl font-medium">
               Course Fields
-            </span>{" "}
+            </span>
             {/* <Settings /> */}
           </div>
-          {/* <CourseFields {...course} />
-          <Description {...course} />
-          <Information {...course} />
+          <CourseFields {...course} />
+          <CourseDescription {...course} />
+          <CourseInformation {...course} />
           <SelectFields {...course} />
-          <Price {...course} /> */}
+          <CoursePrice {...course} />
         </div>
         <div className="flex flex-col space-y-2">
           {/* Sections */}
           <div className="flex items-center gap-2">
             <span className="font-space-grotesk text-3xl font-medium">
               Course Sections
-            </span>{" "}
-            {/* <LayoutPanelLeft /> */}
+            </span>
+            <LayoutPanelLeft />
           </div>
-          {/* <Sections course={course} sections={sections} /> */}
+          <CourseSections course={course} sections={sections} />
 
           {/* Preview image */}
           <div className="flex items-center gap-2">
             <span className="font-space-grotesk text-3xl font-medium">
               Preview Image
-            </span>{" "}
-            {/* <Images /> */}
+            </span>
+            <Images />
           </div>
-          {/* <PreviewImage {...course} /> */}
+          <PreviewImage {...course} />
         </div>
       </div>
     </>
