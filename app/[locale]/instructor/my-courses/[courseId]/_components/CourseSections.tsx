@@ -1,6 +1,5 @@
 "use client";
 
-// import { createSection, updateSection } from "@/actions/section.action";
 import { ICourse, ISection } from "@/app.types";
 import FillLoading from "@/components/shared/FillLoading";
 import { Button } from "@/components/ui/button";
@@ -24,8 +23,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-// import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
-// import SectionList from "./section-list";
+import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
+import SectionList from "./SectionList";
+import { createSection, updateSection } from "@/actions/section.action";
 
 interface Props {
   course: ICourse;
@@ -37,39 +37,39 @@ function CourseSections({ course, sections }: Props) {
   const { state, onToggle } = useToggleEdit();
   const pathname = usePathname();
 
-  // const onReorder = (updateData: { _id: string; position: number }[]) => {
-  //   setIsLoading(true);
-  //   const promise = updateSection({
-  //     lists: updateData,
-  //     path: pathname,
-  //   }).finally(() => setIsLoading(false));
+  const onReorder = (updateData: { _id: string; position: number }[]) => {
+    setIsLoading(true);
+    const promise = updateSection({
+      lists: updateData,
+      path: pathname,
+    }).finally(() => setIsLoading(false));
 
-  //   toast.promise(promise, {
-  //     loading: "Loading...",
-  //     success: "Successfully reordered!",
-  //     error: "Something went wrong!",
-  //   });
-  // };
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: "Successfully reordered!",
+      error: "Something went wrong!",
+    });
+  };
 
-  // const onDragEnd = (result: DropResult) => {
-  //   if (!result.destination) return null;
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return null;
 
-  //   const items = Array.from(sections);
-  //   const [reorderedItem] = items.splice(result.source.index, 1);
-  //   items.splice(result.destination.index, 0, reorderedItem);
+    const items = Array.from(sections);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
 
-  //   const startIndex = Math.min(result.source.index, result.destination.index);
-  //   const endIndex = Math.max(result.source.index, result.destination.index);
+    const startIndex = Math.min(result.source.index, result.destination.index);
+    const endIndex = Math.max(result.source.index, result.destination.index);
 
-  //   const updatedSections = items.slice(startIndex, endIndex + 1);
+    const updatedSections = items.slice(startIndex, endIndex + 1);
 
-  //   const bulkUpdatedData = updatedSections.map((section) => ({
-  //     _id: section._id,
-  //     position: items.findIndex((item) => item._id === section._id),
-  //   }));
+    const bulkUpdatedData = updatedSections.map((section) => ({
+      _id: section._id,
+      position: items.findIndex((item) => item._id === section._id),
+    }));
 
-    // onReorder(bulkUpdatedData);
-  // };
+    onReorder(bulkUpdatedData);
+  };
 
   return (
     <Card>
@@ -83,7 +83,7 @@ function CourseSections({ course, sections }: Props) {
         </div>
         <Separator className="my-3" />
 
-        {/* {state ? (
+        {state ? (
           <Forms course={course} onToggle={onToggle} />
         ) : (
           <>
@@ -107,7 +107,7 @@ function CourseSections({ course, sections }: Props) {
               </DragDropContext>
             )}
           </>
-        )} */}
+        )}
       </CardContent>
     </Card>
   );
@@ -131,15 +131,15 @@ function Forms({ course, onToggle }: FormsProps) {
 
   const onSubmit = (values: z.infer<typeof sectionSchema>) => {
     setIsLoading(true);
-    // const promise = createSection(course._id, values.title, pathname)
-    //   .then(() => onToggle())
-    //   .finally(() => setIsLoading(false));
+    const promise = createSection(course._id, values.title, pathname)
+      .then(() => onToggle())
+      .finally(() => setIsLoading(false));
 
-    // toast.promise(promise, {
-    //   loading: "Loading...",
-    //   success: "Successfully created!",
-    //   error: "Something went wrong!",
-    // });
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: "Successfully created!",
+      error: "Something went wrong!",
+    });
   };
 
   return (

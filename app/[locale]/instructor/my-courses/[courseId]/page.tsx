@@ -10,6 +10,7 @@ import CoursePrice from "./_components/CoursePrice";
 import { Images, LayoutPanelLeft } from "lucide-react";
 import CourseSections from "./_components/CourseSections";
 import PreviewImage from "./_components/PreviewImage";
+import { getSections } from "@/actions/section.action";
 
 async function Page({ params }: { params: { courseId: string } }) {
   const courseJSON = await getCourseById(params.courseId);

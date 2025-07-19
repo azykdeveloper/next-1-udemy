@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import useToggleEdit from "@/hooks/use-toggle-edit";
+import { createClient } from "@supabase/supabase-js";
 // import { storage } from "@/lib/firebase";
 // import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { Edit2, X } from "lucide-react";
@@ -16,6 +17,11 @@ import { usePathname } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 function PreviewImage(course: ICourse) {
   const { state, onToggle } = useToggleEdit();
@@ -55,40 +61,47 @@ interface FormsProps {
   course: ICourse;
   onToggle: () => void;
 }
+
 function Forms({ course, onToggle }: FormsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
-  function onUpload(e: ChangeEvent<HTMLInputElement>) {
-    setIsLoading(true);
-    const files = e.target.files;
-    if (!files) return;
-    const file = files[0];
-
-    const reader = new FileReader();
-
-    // if (file) {
-    //   reader.readAsDataURL(file);
-    //   reader.onload = (e) => {
-    //     const image = e.target?.result as string;
-    //     const refs = ref(storage, `/praktikum/course/${uuidv4()}`);
-    //     const promise = uploadString(refs, image, "data_url")
-    //       .then(() => {
-    //         getDownloadURL(refs).then((url) =>
-    //           updateCourse(course._id, { previewImage: url }, pathname)
-    //         );
-    //       })
-    //       .then(() => onToggle())
-    //       .finally(() => setIsLoading(false));
-
-    //     toast.promise(promise, {
-    //       loading: "Loading...",
-    //       success: "Successfully updated!",
-    //       error: "Something went wrong!",
-    //     });
-    //   };
-    // }
-  }
+  async function onUpload(e: ChangeEvent<HTMLInputElement>) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+  
+      const file = files[0];
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${uuidv4()}.${fileExt}`;
+      const filePath = `course-images/${fileName}`;
+  
+      setIsLoading(true);
+  
+      const { error: uploadError } = await supabase.storage
+        .from("udemy-pics") // bu sizning bucket nomingiz
+        .upload(filePath, file);
+  
+      if (uploadError) {
+        toast.error("❌ Rasm yuklanmadi: " + uploadError.message);
+        setIsLoading(false);
+        return;
+      }
+  
+      const { data: urlData } = supabase.storage
+        .from("udemy-pics")
+        .getPublicUrl(filePath);
+  
+      if (!urlData?.publicUrl) {
+        toast.error("❌ URL olinmadi");
+        setIsLoading(false);
+        return;
+      }
+  
+      updateCourse(course._id, { previewImage: urlData.publicUrl }, pathname);
+      toast.success("✅ Rasm muvaffaqiyatli yuklandi!");
+      onToggle()
+      setIsLoading(false);
+    }
 
   return (
     <>
