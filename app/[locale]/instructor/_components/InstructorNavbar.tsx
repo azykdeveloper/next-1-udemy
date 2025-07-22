@@ -1,7 +1,7 @@
 
 import AppLogo from "@/components/shared/AppLogo";
 import { ModeToggle } from "@/components/shared/ModeToggle";
-import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
+// import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
 import { UserButton } from "@clerk/nextjs";
 
 interface Props {
@@ -14,7 +14,7 @@ function InstructorNavbar({ isProfile }: Props) {
       <AppLogo />
 
       <div className="flex items-center gap-4">
-        {isProfile && <LanguageDropdown />}
+        {/* {isProfile && <LanguageDropdown />} */}
         <ModeToggle />
         <UserButton />
       </div>

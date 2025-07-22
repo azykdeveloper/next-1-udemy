@@ -35,26 +35,28 @@ async function Page({ params }: Params) {
         </div>
         <Action {...section} />
       </div>
-      <Separator className="my-3 bg-muted-foreground" />
 
-      <div className="grid grid-cols-2 gap-4">
+      <Separator className="my-5 bg-muted-foreground" />
+
+      <div className="grid gap-4">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center gap-2">
-            <span className="font-space-grotesk text-3xl font-medium">
-              Lessons
-            </span>{" "}
-            <Settings2 />
-          </div>
-          <Lessons section={section} lessons={lessons} />
-        </div>
-        <div className="flex flex-col space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="font-space-grotesk text-3xl font-medium">
+            <span className="font-space-grotesk text-xl font-medium">
               Section field
             </span>{" "}
             <Settings />
           </div>
           <SectionField {...section} />
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="font-space-grotesk text-xl font-medium">
+              Lessons
+            </span>{" "}
+            <Settings2 />
+          </div>
+          <Lessons section={section} lessons={lessons} />
         </div>
       </div>
     </>

@@ -124,8 +124,12 @@ function Lessons({ section, lessons }: Props) {
         <div className="flex items-center justify-between">
           <span className="text-lg font-medium">Manage chapters</span>
           {!isEdit && (
-            <Button size={"icon"} variant={"ghost"} onClick={onToggle}>
-              {state ? <X /> : <BadgePlus />}
+            <Button size={"icon"} onClick={onToggle}>
+              {state ? (
+                <X />
+              ) : (
+                <BadgePlus />
+              )}
             </Button>
           )}
         </div>

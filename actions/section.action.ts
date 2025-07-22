@@ -4,7 +4,7 @@ import Section from "@/database/section.model";
 import { connectToDatabase } from "@/lib/mongoose";
 import { IUpdateSection } from "./types";
 import { revalidatePath } from "next/cache";
-// import Lesson from "@/database/lesson.model";
+import Lesson from "@/database/lesson.model";
 
 export const getSections = async (course: string) => {
   try {
@@ -57,7 +57,7 @@ export const deleteSection = async (id: string, path: string) => {
   try {
     await connectToDatabase();
     await Section.findByIdAndDelete(id);
-    // await Lesson.deleteMany({ section: id });
+    await Lesson.deleteMany({ section: id });
     revalidatePath(path);
   } catch (error) {
     throw new Error("Something went wrong!");
@@ -87,7 +87,7 @@ export const getCourseSections = async (id: string) => {
       .populate({
         path: "lessons",
         options: { sort: { position: 1 } },
-        // model: Lesson,
+        model: Lesson,
       });
 
     return JSON.parse(JSON.stringify(sections));
