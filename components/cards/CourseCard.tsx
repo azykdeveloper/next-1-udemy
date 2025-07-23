@@ -7,9 +7,14 @@ import { Separator } from "../ui/separator";
 function CourseCard(course: ICourse) {
   return (
     <Link href={`/courses/${course.title}`}>
-      <Card className="group">
+      <Card className="group bg-slate-500/15">
         <CardContent className="h-56 relative w-full">
-          <Image src={course.previewImage} fill alt={course.title} className="object-cover" />
+          <Image
+            src={course.previewImage}
+            fill
+            alt={course.title}
+            className="object-cover"
+          />
         </CardContent>
 
         <div className="my-4 flex flex-col space-y-2 px-2">

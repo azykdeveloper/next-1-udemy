@@ -1,6 +1,8 @@
 import { enUS, ruRU, trTR } from "@clerk/localizations"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import qs from "query-string";
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -45,3 +47,117 @@ export function getReadingTime(content: string) {
     return minutes;
   }
 }
+
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string | null;
+  toCourses?: boolean;
+}
+export const formUrlQuery = ({
+  key,
+  params,
+  value,
+  toCourses = false,
+}: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: toCourses
+        ? `/${window.location.pathname.split("/")[1]}/courses`
+        : window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+// export const calculateTotalDuration = (lessons: ILesson[]) => {
+//   let totalMinutes = 0;
+
+//   lessons.forEach((lesson) => {
+//     totalMinutes +=
+//       lesson.duration.hours * 60 +
+//       lesson.duration.minutes +
+//       Math.round(lesson.duration.seconds / 60);
+//   });
+
+//   const totalHours = Math.floor(totalMinutes / 60);
+//   const remainingMinutes = totalMinutes % 60;
+
+//   const formattedTotalDuration = `${totalHours}.${remainingMinutes
+//     .toString()
+//     .padStart(2, "0")}`;
+
+//   return formattedTotalDuration;
+// };
+
+// export const formatLessonTime = (lesson: ILesson) => {
+//   const duration = lesson.duration;
+
+//   const totalSeconds =
+//     duration.hours * 3600 + duration.minutes * 60 + duration.seconds;
+
+//   const hours = Math.floor(totalSeconds / 3600);
+//   const minutes = Math.floor((totalSeconds % 3600) / 60);
+//   const seconds = totalSeconds % 60;
+
+//   const formattedTime = `${hours > 0 ? hours + ":" : ""}${
+//     minutes > 0 ? minutes + ":" : ""
+//   }${seconds.toString().padStart(2, "0")}`;
+
+//   return formattedTime;
+// };
+
+// export const formatAndDivideNumber = (num: number) => {
+//   if (num >= 1000000) {
+//     const formattedNum = (num / 1000000).toFixed(1);
+//     return `${formattedNum}M`;
+//   } else if (num >= 1000) {
+//     const formattedNum = (num / 1000).toFixed(1);
+//     return `${formattedNum}K`;
+//   } else {
+//     return num.toString();
+//   }
+// };
+
+// export const getTimeLocale = (lng: string) => {
+//   if (lng === "en") return en;
+//   if (lng === "ru") return ru;
+//   if (lng === "tr") return tr;
+//   if (lng === "uz") return uz;
+// };
+
+// export const generateNumericId = (): string => {
+//   let id = "";
+//   for (let i = 0; i < 4; i++) {
+//     id += Math.floor(Math.random() * 10).toString();
+//   }
+//   return id;
+// };

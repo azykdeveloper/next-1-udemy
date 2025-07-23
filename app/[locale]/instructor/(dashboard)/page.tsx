@@ -3,8 +3,19 @@ import InstructorHeader from "../_components/InstructorHeader";
 import { MessageSquare, MonitorPlay } from "lucide-react";
 import { PiStudent } from "react-icons/pi";
 import { GrMoney } from "react-icons/gr";
+import { auth } from "@clerk/nextjs/server";
+import { getCourses } from "@/actions/course.action";
+import InstructorCourseCard from "@/components/cards/InstructorCourseCard";
 
-function DashboardPage() {
+async function DashboardPage() {
+  const { userId } = await auth();
+  // const user = await getRole(userId!);
+
+  // if (user.role !== "instructor") return redirect("/");
+
+  const result = await getCourses({ clerkId: userId! });
+  // const { reviews, totalReviews } = await getReviews({ clerkId: userId! });
+
   return (
     <>
       <InstructorHeader
@@ -48,12 +59,12 @@ function DashboardPage() {
       />
 
       <div className="mt-4 grid grid-cols-3 gap-4">
-        {/* {result.courses.map((course) => (
+        {result.courses.map((course) => (
           <InstructorCourseCard
             key={course.title}
             course={JSON.parse(JSON.stringify(course))}
           />
-        ))} */}
+        ))}
       </div>
 
       <InstructorHeader title="Reviews" description="Here are your latest reviews" />

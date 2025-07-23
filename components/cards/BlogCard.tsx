@@ -10,7 +10,7 @@ function BlogCard(blog: IBlog) {
   return (
     <Link href={`/blogs/${blog.slug}`}>
       <div className={"group grid grid-cols-1 gap-4"}>
-        <div className="relative rounded-md bg-secondary">
+        <div className="relative rounded-md bg-slate-500/15">
           <Image
             width={650}
             height={335}

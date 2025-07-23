@@ -20,7 +20,7 @@ function LearningJourney() {
         {learningJourney.map((item) => (
           <div
             key={item.title}
-            className="flex flex-col items-center justify-center rounded-md bg-secondary p-6 text-center"
+            className="flex flex-col items-center justify-center rounded-md bg-slate-500/15 p-6 text-center"
           >
             <Image src={item.image} alt={item.title} width={70} height={70} />
             <h2 className="mt-2 line-clamp-1 font-space-grotesk text-lg font-bold">

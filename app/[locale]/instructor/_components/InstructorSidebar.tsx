@@ -38,7 +38,7 @@ function InstructorSidebar({ page }: Props) {
               <Button
                 className="flex w-full justify-start gap-2 max-md:w-fit max-md:justify-center"
                 variant={
-                  (pathname?.slice(3) === item.route ? "secondary" : "ghost")
+                  (pathname?.slice(3) === item.route ? "default" : "ghost")
                 }
               >
                 <item.icon className="size-5 text-muted-foreground" />

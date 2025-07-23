@@ -46,7 +46,7 @@ function AppHero() {
         />
       </div>
 
-      <div className="w-full bg-secondary">
+      <div className="w-full bg-slate-500/15">
         <Carousel
           plugins={[AutoScroll({ speed: 1 })]}
           opts={{ loop: true, align: "start" }}
