@@ -7,7 +7,7 @@ import AppLogo from "./AppLogo";
 import Link from "next/link";
 import { navLinks } from "@/constants";
 import { useTranslations } from "next-intl";
-import AppSearch from "./AppSearch";
+import GlobalSearch from "./GlobalSearch";
 import { LanguageDropdown } from "./LanguageDropdown";
 import { ModeToggle } from "./ModeToggle";
 
@@ -39,7 +39,7 @@ function NavbarSheet() {
         </div>
 
         <div className="flex items-center justify-center gap-2 pb-10">
-          <AppSearch />
+          <GlobalSearch />
           <Button size={"icon"} variant={"ghost"}>
             <ShoppingCart />
           </Button>

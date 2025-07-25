@@ -2,7 +2,6 @@
 
 import { filterCourses } from "@/constants";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import {
   Carousel,
@@ -14,6 +13,8 @@ import {
 import CourseCard from "../../../../components/cards/CourseCard";
 import Autoplay from "embla-carousel-autoplay";
 import { ICourse } from "@/app.types";
+import { formUrlQuery } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   courses: ICourse[];
@@ -21,7 +22,20 @@ interface Props {
 
 function FeaturedCourses({courses}: Props) {
   const t = useTranslations();
-  const [filter, setFilter] = useState("all");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const onUpdateParams = (value: string) => {
+		const newUrl = formUrlQuery({
+			value,
+			key: 'filter',
+			params: searchParams.toString(),
+			toCourses: true,
+		})
+
+		router.push(newUrl)
+	}
+
   return (
     <div className="container px-5 max-w-6xl mx-auto py-12">
       <div className="flex gap-3 items-center justify-between max-md:flex-col max-md:items-start">
@@ -38,8 +52,8 @@ function FeaturedCourses({courses}: Props) {
           {filterCourses.map((item) => (
             <Button
               key={item.name}
-              variant={filter === item.name ? "default" : "outline"}
-              onClick={() => setFilter(item.name)}
+              variant="outline"
+              onClick={() => onUpdateParams(item.name)}
               className="rounded-full"
             >
               {t(item.label)}

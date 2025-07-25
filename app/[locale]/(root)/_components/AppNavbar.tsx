@@ -7,7 +7,7 @@ import { navLinks } from "@/constants";
 import { NotebookPen, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
-import AppSearch from "../../../../components/shared/AppSearch";
+import GlobalSearch from "../../../../components/shared/GlobalSearch";
 import {
   SignedIn,
   SignedOut,
@@ -57,7 +57,7 @@ function AppNavbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           <div className="md:flex hidden items-center border-r pr-3 gap-2">
-            <AppSearch />
+            <GlobalSearch />
             <Button size={"icon"} variant={"ghost"}>
               <ShoppingCart />
             </Button>
