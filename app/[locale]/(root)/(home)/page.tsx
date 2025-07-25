@@ -1,10 +1,10 @@
 
 import { getFeaturedCourses } from "@/actions/course.action";
-import FeaturedCourses from "../_components/FeaturedCourses";
 import AppHero from "../_components/AppHero";
 import CourseCategories from "../_components/CourseCategories";
 import CourseInstructors from "../_components/CourseInstructors";
 import LearningJourney from "../_components/LearningJourney";
+import FeaturedCourses from "../_components/FeaturedCourses";
 
 async function Home() {
   const courses = await getFeaturedCourses();

@@ -9,7 +9,7 @@ function NoResult({ description, title }: Props) {
   return (
     <div className="mt-10 flex w-full flex-col items-center justify-center">
       <Image
-        src="/assets/not-found.png"
+        src="/img/not-found.png"
         alt="No result illustration"
         width={270}
         height={200}

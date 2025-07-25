@@ -37,7 +37,7 @@ async function Page({ params: { locale, slug } }: Props) {
 
   return (
     <>
-      <TopBar label="allCourses" extra="Full Courses ReactJS" />
+      <TopBar label="allCourses"  />
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-3 gap-4 pt-12">
           <div className="col-span-2 max-lg:col-span-3">
