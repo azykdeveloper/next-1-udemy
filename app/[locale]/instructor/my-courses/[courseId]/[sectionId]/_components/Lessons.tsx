@@ -118,18 +118,14 @@ function Lessons({ section, lessons }: Props) {
   };
 
   return (
-    <Card>
+    <Card className="bg-background">
       <CardContent className="relative p-6">
         {isLoading && <FillLoading />}
         <div className="flex items-center justify-between">
           <span className="text-lg font-medium">Manage chapters</span>
           {!isEdit && (
             <Button size={"icon"} onClick={onToggle}>
-              {state ? (
-                <X />
-              ) : (
-                <BadgePlus />
-              )}
+              {state ? <X /> : <BadgePlus />}
             </Button>
           )}
         </div>

@@ -23,7 +23,7 @@ import { usePathname } from "@/i18n/routing";
 
 function AppNavbar() {
   const { resolvedTheme } = useTheme();
-  const t = useTranslations("NAVBAR");
+  const t = useTranslations();
   const pathname = usePathname();
 
   return (

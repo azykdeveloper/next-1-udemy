@@ -1,20 +1,19 @@
-"use client"
 
-import AppCourses from "../_components/AppCourses";
+import { getFeaturedCourses } from "@/actions/course.action";
+import FeaturedCourses from "../_components/FeaturedCourses";
 import AppHero from "../_components/AppHero";
 import CourseCategories from "../_components/CourseCategories";
 import CourseInstructors from "../_components/CourseInstructors";
 import LearningJourney from "../_components/LearningJourney";
-// import dynamic from "next/dynamic";
 
-// const AppHero = dynamic(() => import("../_components/AppHero"), {
-//   ssr: false,
-// });
-function Home() {
+async function Home() {
+  const courses = await getFeaturedCourses();
+  // const instructorData = await getAdminInstructors({ pageSize: 4 });
+
   return (
     <>
       <AppHero />
-      <AppCourses />
+      <FeaturedCourses courses={JSON.parse(JSON.stringify(courses))} />
       <CourseCategories />
       <CourseInstructors />
       <LearningJourney />

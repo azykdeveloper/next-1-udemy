@@ -1,33 +1,4 @@
 {
-  "NAVBAR": {
-    "navLink1": "Home",
-    "navLink2": "Courses",
-    "navLink3": "Blogs",
-    "navLink4": "Contact",
-
-    "signIn": "Sign In",
-    "signUp": "Sign Up"
-  },
-  "HERO": {
-    "title": "Gain the skills to manage your career",
-    "subtitle": "Free online courses from the world's top experts. Join 17 million learners today",
-    "btn1": "Learn More",
-    "btn2": "Blogs"
-  },
-  "FEATURE_COURSES": {
-    "title": "Browse trending courses",
-    "subtitle": "10,000+ custom course designs",
-
-    "category1": "All",
-    "category2": "Trending",
-    "category3": "Popular",
-    "category4": "Futured",
-
-    "level1": "All",
-    "level2": "Beginner",
-    "level3": "Intermediate",
-    "level4": "Advanced"
-  },
   "navLink1": "Home",
   "navLink2": "Courses",
   "navLink3": "Blogs",

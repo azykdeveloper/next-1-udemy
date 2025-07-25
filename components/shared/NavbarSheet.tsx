@@ -12,7 +12,7 @@ import { LanguageDropdown } from "./LanguageDropdown";
 import { ModeToggle } from "./ModeToggle";
 
 function NavbarSheet() {
-  const t = useTranslations("NAVBAR");
+  const t = useTranslations();
   return (
     <Sheet>
       <SheetTrigger asChild>

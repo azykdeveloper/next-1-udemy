@@ -1,6 +1,6 @@
 "use client";
 
-import { courses, filterCourses } from "@/constants";
+import { filterCourses } from "@/constants";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
@@ -13,18 +13,25 @@ import {
 } from "../../../../components/ui/carousel";
 import CourseCard from "../../../../components/cards/CourseCard";
 import Autoplay from "embla-carousel-autoplay";
+import { ICourse } from "@/app.types";
 
-function AppCourses() {
-  const t = useTranslations("FEATURE_COURSES");
+interface Props {
+  courses: ICourse[];
+}
+
+function FeaturedCourses({courses}: Props) {
+  const t = useTranslations();
   const [filter, setFilter] = useState("all");
   return (
     <div className="container px-5 max-w-6xl mx-auto py-12">
       <div className="flex gap-3 items-center justify-between max-md:flex-col max-md:items-start">
         <div className="flex flex-col space-y-1">
           <h1 className="text-3xl font-space-grotesk font-bold">
-            {t("title")}
+            {t("exploreCourses")}
           </h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
+          <p className="text-muted-foreground">
+            {t("exploreCoursesDescription")}
+          </p>
         </div>
 
         <div className="flex items-center gap-2 self-end max-md:mt-5">
@@ -49,9 +56,9 @@ function AppCourses() {
       <Carousel
         plugins={[Autoplay({ delay: 4000 })]}
         opts={{ align: "start" }}
-        className="hidden md:flex mt-5 w-full"
+        className="mt-5 w-full"
       >
-        <CarouselContent>
+        <CarouselContent className="hidden md:flex w-full gap-1">
           {courses.map((course) => (
             <CarouselItem
               key={course.title}
@@ -68,4 +75,4 @@ function AppCourses() {
   );
 }
 
-export default AppCourses;
+export default FeaturedCourses;

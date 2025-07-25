@@ -33,8 +33,9 @@ interface Props extends ChildProps {
   params: { locale: string };
 }
 
-export default async function Layout({ children, params }: Props) {
-  const { locale } = params;
+export default async function Layout(props: Props) {
+  const { children, params } = props;
+  const { locale } = await params;
 
   const messages = await getMessages();
   const local = localization(locale);

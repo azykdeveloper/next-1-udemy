@@ -72,12 +72,12 @@ function CourseSections({ course, sections }: Props) {
   };
 
   return (
-    <Card>
+    <Card className="bg-background">
       <CardContent className="relative p-6">
         {isLoading && <FillLoading />}
         <div className="flex items-center justify-between">
           <span className="text-lg font-medium">Sections</span>
-          <Button size={"icon"} variant={"ghost"} onClick={onToggle}>
+          <Button size={"icon"}  onClick={onToggle}>
             {state ? <X /> : <BadgePlus />}
           </Button>
         </div>

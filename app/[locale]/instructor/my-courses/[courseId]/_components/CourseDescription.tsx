@@ -28,7 +28,7 @@ function CourseDescription(course: ICourse) {
   const { state, onToggle } = useToggleEdit();
 
   return (
-    <Card>
+    <Card className="bg-background">
       <CardContent className="relative p-6">
         <div className="flex items-center justify-between">
           <span className="text-lg font-medium">Description</span>

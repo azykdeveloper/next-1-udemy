@@ -1,34 +1,4 @@
 {
-  "NAVBAR": {
-    "navLink1": "Anasayfa",
-    "navLink2": "Kurslar",
-    "navLink3": "Bloglar",
-    "navLink4": "İletişim",
-
-    "signIn": "Giriş",
-    "signUp": "Kayıt Ol"
-  },
-  "HERO": {
-    "title": "Kariyerinizi yönetmek için gereken becerileri edinin",
-    "subtitle": "Dünyanın en iyi uzmanlarından ücretsiz çevrimiçi kurslar. Bugün 17 milyon öğrenciye katılın",
-    "btn1": "Daha fazla bilgi",
-    "btn2": "Bloglar"
-  },
-  "FEATURE_COURSES": {
-    "title": "Trend olan kurslara göz atın",
-    "subtitle": "10.000'den fazla özel kurs tasarımı",
-
-    "category1": "Tümü",
-    "category2": "Trend",
-    "category3": "Popüler",
-    "category4": "Gelecek",
-
-    "level1": "Tüm",
-    "level2": "Baslangic",
-    "level3": "Orta",
-    "level4": "Gelismis"
-  },
-
   "navLink1": "Anasayfa",
   "navLink2": "Kurslar",
   "navLink3": "Bloglar",

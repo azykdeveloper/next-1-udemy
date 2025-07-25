@@ -30,7 +30,7 @@ function LessonList({ index, lesson, onStartEdit }: Props) {
     <Draggable draggableId={lesson._id} index={index}>
       {(provided) => (
         <div
-          className="mb-4 flex items-center gap-x-2 rounded-md border bg-secondary text-sm"
+          className="mb-4 flex items-center gap-x-2 rounded-md border bg-slate-500/15 text-sm"
           ref={provided.innerRef}
           {...provided.draggableProps}
         >
