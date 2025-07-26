@@ -19,9 +19,29 @@ import Hero from "./_components/Hero";
 import Overview from "./_components/Overview";
 import Description from "./_components/Description";
 import { ICourse } from "@/app.types";
+import { Metadata } from "next";
+
+export async function generateMetadata(
+  { params }: { params: { slug: string } },
+  // parent: ResolvingMetadata
+): Promise<Metadata> {
+  const course = await getDetailedCourse(params.slug!);
+
+  return {
+    title: course.title,
+    description: course.description,
+    openGraph: {
+      images: course.previewImage,
+      title: course.title,
+      description: course.description,
+    },
+    keywords: course.tags,
+  };
+}
+
 
 interface Props {
-  params: { slug: string };
+  params: { locale: string; slug: string };
 }
 
 async function Page({ params: { slug } }: Props) {
