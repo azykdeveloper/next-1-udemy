@@ -72,8 +72,8 @@ export interface IUser {
   isAdmin: boolean;
 }
 
-export interface CoursesPageProps {
-  searchParams?: { [key: string]: string | string[] | undefined };
+export interface SearchParamsProps {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
 export interface IReview {

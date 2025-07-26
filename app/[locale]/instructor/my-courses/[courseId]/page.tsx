@@ -12,9 +12,15 @@ import CourseSections from "./_components/CourseSections";
 import PreviewImage from "./_components/PreviewImage";
 import { getSections } from "@/actions/section.action";
 
-async function Page({ params }: { params: { courseId: string } }) {
-  const courseJSON = await getCourseById(params.courseId);
-  const sectionsJSON = await getSections(params.courseId);
+interface Params {
+  params: { courseId: string };
+}
+
+async function Page(props: { params: Promise<Params> }) {
+  const params = await props.params;
+
+  const courseJSON = await getCourseById(params.params.courseId);
+  const sectionsJSON = await getSections(params.params.courseId);
 
   const course = JSON.parse(JSON.stringify(courseJSON));
   const sections = JSON.parse(JSON.stringify(sectionsJSON));

@@ -7,7 +7,8 @@ import InstructorHeader from "../_components/InstructorHeader";
 
 async function Page({ searchParams }: SearchParamsProps) {
   const { userId } = await auth();
-  const page = searchParams.page ? +searchParams.page : 1;
+  const resolvedSearchParams = await searchParams;
+  const page = resolvedSearchParams.page ? +resolvedSearchParams.page : 1;
 
   const result = await getCourses({ clerkId: userId!, page });
 

@@ -4,17 +4,18 @@ import { twMerge } from "tailwind-merge"
 import qs from "query-string";
 import { ILesson } from "@/app.types";
 import { uzUZ } from "./uz-UZ";
+import { enUS as en, uz, tr, ru } from "date-fns/locale";
 
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function localization(lng: string) {
-  if(lng === 'en') return enUS
-  if(lng === 'ru') return ruRU
-  if(lng === 'tr') return trTR
-  if(lng === 'uz') return uzUZ // Assuming you want to use English for Uzbek as well
+export function localization(locale: string) {
+  if(locale === 'en') return enUS
+  if(locale === 'ru') return ruRU
+  if(locale === 'tr') return trTR
+  if(locale === 'uz') return uzUZ // Assuming you want to use English for Uzbek as well
 }
 
 export function getReadingTime(content: string) {
@@ -150,12 +151,12 @@ export const formatAndDivideNumber = (num: number) => {
   }
 };
 
-// export const getTimeLocale = (lng: string) => {
-//   if (lng === "en") return en;
-//   if (lng === "ru") return ru;
-//   if (lng === "tr") return tr;
-//   if (lng === "uz") return uz;
-// };
+export const getTimeLocale = (locale: string) => {
+  if (locale === "en") return en;
+  if (locale === "ru") return ru;
+  if (locale === "tr") return tr;
+  if (locale === "uz") return uz;
+};
 
 export const generateNumericId = (): string => {
   let id = "";
