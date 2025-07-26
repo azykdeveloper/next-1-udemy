@@ -20,16 +20,20 @@ import Overview from "./_components/Overview";
 import Description from "./_components/Description";
 import { ICourse } from "@/app.types";
 
+interface Params {
+  params: { slug: string };
+}
 
-async function Page({ params: { slug } }: { params: { slug: string } }) {
+async function Page(props: { params: Promise<Params> }) {
+  const params = await props.params
   const t = await getTranslations();
   const { userId } = await auth();
-  const courseJSON = await getDetailedCourse(slug);
+  const courseJSON = await getDetailedCourse(params.params.slug);
   const coursesJSON = await getFeaturedCourses();
   let isPurchase;
 
   if (userId) {
-    isPurchase = await getIsPurchase(userId!, slug);
+    isPurchase = await getIsPurchase(userId!, params.params.slug);
   }
 
   const course = JSON.parse(JSON.stringify(courseJSON));
