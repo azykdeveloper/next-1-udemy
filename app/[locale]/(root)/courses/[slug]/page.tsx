@@ -1,7 +1,17 @@
-import { getDetailedCourse, getFeaturedCourses, getIsPurchase } from "@/actions/course.action";
+import {
+  getDetailedCourse,
+  getFeaturedCourses,
+  getIsPurchase,
+} from "@/actions/course.action";
 import CourseCard from "@/components/cards/CourseCard";
 import TopBar from "@/components/shared/TopBar";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@clerk/nextjs/server";
 import { getTranslations } from "next-intl/server";
@@ -29,15 +39,21 @@ async function Page({ params: { slug } }: Props) {
   const courses = JSON.parse(JSON.stringify(coursesJSON));
 
   if (!course) {
-    return <div className="container mx-auto max-w-6xl pt-12">Course not found</div>;
+    return (
+      <div className="container mx-auto max-w-6xl pt-12">Course not found</div>
+    );
   }
   if (!courses || courses.length === 0) {
-    return <div className="container mx-auto max-w-6xl pt-12">No courses available</div>;
+    return (
+      <div className="container mx-auto max-w-6xl pt-12">
+        No courses available
+      </div>
+    );
   }
 
   return (
     <>
-      <TopBar label="allCourses"  />
+      <TopBar label="allCourses" />
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-3 gap-4 pt-12">
           <div className="col-span-2 max-lg:col-span-3">
