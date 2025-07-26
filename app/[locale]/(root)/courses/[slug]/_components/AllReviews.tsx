@@ -35,6 +35,7 @@ function AllReviews(course: ICourse) {
       setOpen(true);
     } catch (error) {
       setLoading(false);
+      console.error("Error fetching reviews:", error);
     }
   };
 
@@ -47,6 +48,7 @@ function AllReviews(course: ICourse) {
       setReviews(reviews);
       setLoading(false);
     } catch (error) {
+      console.error("Error loading more reviews:", error);
       setLoading(false);
     }
   };

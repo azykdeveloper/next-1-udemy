@@ -41,6 +41,7 @@ function Overview(course: ICourse) {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
+        console.error("Error fetching sections or reviews:", error);
       }
     };
 

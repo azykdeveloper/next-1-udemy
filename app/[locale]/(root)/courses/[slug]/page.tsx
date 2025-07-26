@@ -11,10 +11,10 @@ import Description from "./_components/Description";
 import { ICourse } from "@/app.types";
 
 interface Props {
-  params: { locale: string; slug: string };
+  params: { slug: string };
 }
 
-async function Page({ params: { locale, slug } }: Props) {
+async function Page({ params: { slug } }: Props) {
   const t = await getTranslations();
   const { userId } = await auth();
   const courseJSON = await getDetailedCourse(slug);
