@@ -2,7 +2,7 @@ import TopBar from "@/components/shared/TopBar";
 import AllCourses from "../_components/AllCourses";
 import { Metadata } from "next";
 import { getAllCourses } from "@/actions/course.action";
-import { SearchParamsProps } from "@/app.types";
+import { CoursesPageProps } from "@/app.types";
 
 export const metadata: Metadata = {
   title: "Praktikum | Barcha kurslar",
@@ -10,11 +10,15 @@ export const metadata: Metadata = {
     "Platformamizda mavjud bo'lgan barcha kurslar ro'yxati. O'zingizga mos kursni toping va o'rganishni boshlang!",
 };
 
-async function CoursesPage({ searchParams }: SearchParamsProps) {
+async function CoursesPage({ searchParams }: CoursesPageProps) {
   const resultJSON = await getAllCourses({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
+    searchQuery:
+      typeof searchParams?.q === "string" ? searchParams.q : undefined,
+    filter:
+      typeof searchParams?.filter === "string"
+        ? searchParams.filter
+        : undefined,
+    page: typeof searchParams?.page === "string" ? +searchParams.page : 1,
   });
 
   const result = JSON.parse(JSON.stringify(resultJSON));
