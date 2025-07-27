@@ -7,8 +7,8 @@ import { ICourse } from "@/app.types";
 function CourseCard(course: ICourse) {
   return (
     <Link href={`/courses/${course._id}`}>
-      <Card className="group bg-slate-500/15">
-        <CardContent className="h-56 relative w-full">
+      <Card className="group bg-slate-500/15 p-0 overflow-hidden" >
+        <CardContent className="h-56 relative w-full ">
           <Image
             src={course.previewImage}
             fill
