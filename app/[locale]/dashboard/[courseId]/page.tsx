@@ -4,9 +4,9 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 interface Props {
-  params: { courseId: string; lng: string };
+  params: { courseId: string; locale: string };
 }
-async function Page({ params: { courseId, lng } }: Props) {
+async function Page({ params: { courseId, locale } }: Props) {
   const { userId } = await auth();
   const isPurchase = await getIsPurchase(userId!, courseId);
 
@@ -14,7 +14,7 @@ async function Page({ params: { courseId, lng } }: Props) {
 
   const { lessonId, sectionId } = await getLastLesson(userId!, courseId);
 
-  return redirect(`/${lng}/dashboard/${courseId}/${lessonId}?s=${sectionId}`);
+  return redirect(`/${locale}/dashboard/${courseId}/${lessonId}?s=${sectionId}`);
 }
 
 export default Page;
