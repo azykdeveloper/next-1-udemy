@@ -10,7 +10,7 @@ async function Page({ params: { courseId, locale } }: Props) {
   const { userId } = await auth();
   const isPurchase = await getIsPurchase(userId!, courseId);
 
-  if (!isPurchase) return redirect(`/course/${courseId}`);
+  if (!isPurchase) return redirect(`/courses/${courseId}`);
 
   const { lessonId, sectionId } = await getLastLesson(userId!, courseId);
 

@@ -318,6 +318,7 @@ export const getDashboardCourse = async (clerkId: string, courseId: string) => {
 
     return { course, sections, progressPercentage };
   } catch (error) {
+    console.error(error);
     throw new Error("Something went wrong while getting dashboard course!");
   }
 };

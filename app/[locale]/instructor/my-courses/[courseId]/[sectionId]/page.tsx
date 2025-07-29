@@ -9,14 +9,13 @@ import SectionField from "./_components/SectionField";
 import Lessons from "./_components/Lessons";
 import { getLessons } from "@/actions/lesson.action";
 
-interface Params {
+interface PageProps {
   params: { sectionId: string; courseId: string };
 }
 
-async function Page(props: { params: Promise<Params> }) {
-  const params = await props.params;
-  const sectionJSON = await getSectionById(params.params.sectionId);
-  const lessonsJSON = await getLessons(params.params.sectionId);
+async function Page({ params }: PageProps) {
+  const sectionJSON = await getSectionById(params.sectionId);
+  const lessonsJSON = await getLessons(params.sectionId);
 
   const section = JSON.parse(JSON.stringify(sectionJSON));
   const lessons = JSON.parse(JSON.stringify(lessonsJSON));
@@ -25,7 +24,7 @@ async function Page(props: { params: Promise<Params> }) {
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href={`/en/instructor/my-courses/${params.params.courseId}`}>
+          <Link href={`/en/instructor/my-courses/${params.courseId}`}>
             <Button size={"icon"} variant={"outline"}>
               <ChevronLeftCircle />
             </Button>
