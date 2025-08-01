@@ -14,13 +14,14 @@ export const createCustomer = async (userId: string) => {
     const customer = await stripe.customers.create({
       email,
       name: fullName,
-      metadata: { userId },
+      metadata: { userId: userId.toString() }, // ✅ Ensures metadata is a string
     });
 
     await User.findByIdAndUpdate(userId, { customerId: customer.id });
 
     return customer;
   } catch (error) {
+    console.error("❌ createCustomer error:", error);
     throw new Error("Couldn't create customer");
   }
 };
@@ -28,16 +29,37 @@ export const createCustomer = async (userId: string) => {
 export const getCustomer = async (clerkId: string) => {
   try {
     await connectToDatabase();
-    const user = await User.findOne({ clerkId }).select("customerId");
-    const { _id, customerId } = user;
 
-    if (!customerId) return await createCustomer(_id);
+    // 1. Foydalanuvchini topamiz
+    let user = await User.findOne({ clerkId }).select("_id customerId");
+    if (!user) throw new Error("User not found with given clerkId");
 
-    return await stripe.customers.retrieve(customerId);
+    console.log(
+      `Fetching customer for user: ${user._id} with customerId: ${user.customerId}`
+    );
+
+    // 2. Agar customerId mavjud bo'lmasa, yaratamiz
+    if (!user.customerId) {
+      const created = await createCustomer(user._id);
+
+      // 🔁 Qayta olib, customerId ni tekshiramiz
+      user = await User.findById(user._id).select("customerId");
+
+      if (!user?.customerId) {
+        throw new Error("Customer was created but not saved to user document");
+      }
+
+      return created;
+    }
+
+    // 3. Bor bo‘lsa, retrieve qilamiz
+    return await stripe.customers.retrieve(user.customerId);
   } catch (error) {
+    console.error("❌ getCustomer error:", error);
     throw new Error("Couldn't get customer details");
   }
 };
+
 
 export const atachPayment = async (
   paymentMethod: string,
@@ -70,7 +92,7 @@ export const getCustomerCards = async (clerkId: string) => {
   try {
     await connectToDatabase();
     const customer = await getCustomer(clerkId);
-
+    console.log("Stripe customer returned:", customer);
     const paymentMethods = await stripe.paymentMethods.list({
       customer: customer.id,
       type: "card",

@@ -26,7 +26,7 @@ async function MobileCurriculum({ courseId }: Props) {
       </div>
 
       <div className="mt-4">
-        <Sections sections={JSON.parse(JSON.stringify(sections))} />
+        {/* <Sections sections={JSON.parse(JSON.stringify(sections))} /> */}
       </div>
     </div>
   );

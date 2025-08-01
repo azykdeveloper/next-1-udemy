@@ -4,7 +4,7 @@ import AppLogo from "@/components/shared/AppLogo";
 import { ModeToggle } from "@/components/shared/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants";
-import { NotebookPen, ShoppingCart } from "lucide-react";
+import { NotebookPen } from "lucide-react";
 import Link from "next/link";
 import { LanguageDropdown } from "@/components/shared/LanguageDropdown";
 import GlobalSearch from "../../../../components/shared/GlobalSearch";
@@ -20,6 +20,8 @@ import { dark } from "@clerk/themes";
 import { useTranslations } from "next-intl";
 import NavbarSheet from "../../../../components/shared/NavbarSheet";
 import { usePathname } from "@/i18n/routing";
+import ShoppingCartBtn from "@/components/shared/ShoppingCartBtn";
+// import UserBox from "@/components/shared/UserBox";
 
 function AppNavbar() {
   const { resolvedTheme } = useTheme();
@@ -58,9 +60,7 @@ function AppNavbar() {
         <div className="flex items-center gap-3">
           <div className="md:flex hidden items-center border-r pr-3 gap-2">
             <GlobalSearch />
-            <Button size={"icon"} variant={"ghost"}>
-              <ShoppingCart />
-            </Button>
+            <ShoppingCartBtn />
             <LanguageDropdown />
             <ModeToggle />
           </div>
@@ -86,7 +86,10 @@ function AppNavbar() {
                 <UserButton.Action label="signOut" />
               </UserButton.MenuItems>
             </UserButton>
+
+            {/* <UserBox /> */}
           </SignedIn>
+
           <SignedOut>
             <SignInButton
               appearance={{

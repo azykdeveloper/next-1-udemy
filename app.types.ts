@@ -73,7 +73,7 @@ export interface IUser {
 }
 
 export interface SearchParamsProps {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
+  searchParams: Record<string, string | undefined>;
 }
 
 export interface IReview {

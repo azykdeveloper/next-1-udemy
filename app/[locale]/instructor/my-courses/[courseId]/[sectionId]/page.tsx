@@ -9,13 +9,19 @@ import SectionField from "./_components/SectionField";
 import Lessons from "./_components/Lessons";
 import { getLessons } from "@/actions/lesson.action";
 
-interface PageProps {
-  params: { sectionId: string; courseId: string };
-}
+// interface PageProps {
+//   params: { sectionId: string; courseId: string };
+// }
 
-async function Page({ params }: PageProps) {
-  const sectionJSON = await getSectionById(params.sectionId);
-  const lessonsJSON = await getLessons(params.sectionId);
+async function Page({
+  params,
+}: {
+  params: Promise<{ sectionId: string; courseId: string }>;
+}) {
+  const resolvedParams = await params;
+
+  const sectionJSON = await getSectionById(resolvedParams.sectionId);
+  const lessonsJSON = await getLessons(resolvedParams.sectionId);
 
   const section = JSON.parse(JSON.stringify(sectionJSON));
   const lessons = JSON.parse(JSON.stringify(lessonsJSON));
@@ -24,7 +30,7 @@ async function Page({ params }: PageProps) {
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href={`/en/instructor/my-courses/${params.courseId}`}>
+          <Link href={`/en/instructor/my-courses/${resolvedParams.courseId}`}>
             <Button size={"icon"} variant={"outline"}>
               <ChevronLeftCircle />
             </Button>
@@ -63,5 +69,4 @@ async function Page({ params }: PageProps) {
     </>
   );
 }
-
 export default Page;

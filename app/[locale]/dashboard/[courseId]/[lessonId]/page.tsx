@@ -5,9 +5,13 @@ import MobileCurriculum from "./_components/MobileCurriculum";
 import { getTranslations } from "next-intl/server";
 
 interface Props {
-  params: { lessonId: string; courseId: string; };
+  params: {
+    courseId: string;
+    lessonId: string;
+  };
 }
-async function Page({ params: { courseId, lessonId } }: Props) {
+async function Page({ params }: Props) {
+  const { courseId, lessonId } = await params;
   const t = await getTranslations();
   const lesson = await getLesson(lessonId);
 

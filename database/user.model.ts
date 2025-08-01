@@ -13,7 +13,10 @@ const UserSchema = new Schema(
     linkedin: String,
     github: String,
     youtube: String,
-    customerId: String,
+    customerId: {
+      type: String,
+      default: null,
+    },
     role: { type: String, default: "user" },
     isAdmin: { type: Boolean, default: false },
     approvedInstructor: { type: Boolean, default: false },

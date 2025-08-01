@@ -2,7 +2,7 @@
 
 import { connectToDatabase } from "@/lib/mongoose";
 import stripe from "@/lib/stripe";
-import { atachPayment, getCustomer } from "./customer.action.ts";
+import { atachPayment, getCustomer } from "./customer.action";
 import { generateNumericId } from "@/lib/utils";
 
 export const payment = async (

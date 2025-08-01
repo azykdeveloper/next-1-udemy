@@ -1,10 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 function AppLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2">
-      <Image src={"/logo.png"} alt="logo" width={100} height={40} />
+    <Link href="/">
+      <span className="text-3xl font-extrabold text-primary bg-zinc-500/20 py-1 px-3 font-space-grotesk tracking-tighter rounded">Udemy</span>
     </Link>
   );
 }

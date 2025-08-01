@@ -16,10 +16,12 @@ interface PageProps {
   params: { courseId: string };
 }
 
-async function Page({ params }: PageProps) {
+async function Page(props: PageProps) {
 
-  const courseJSON = await getCourseById(params.courseId);
-  const sectionsJSON = await getSections(params.courseId);
+  const { courseId } = await props.params;
+
+  const courseJSON = await getCourseById(courseId);
+  const sectionsJSON = await getSections(courseId);
 
   const course = JSON.parse(JSON.stringify(courseJSON));
   const sections = JSON.parse(JSON.stringify(sectionsJSON));

@@ -6,7 +6,10 @@ import { redirect } from "next/navigation";
 interface Props {
   params: { courseId: string; locale: string };
 }
-async function Page({ params: { courseId, locale } }: Props) {
+
+async function Page(props: Props) {
+  const { courseId, locale } = await props.params;
+
   const { userId } = await auth();
   const isPurchase = await getIsPurchase(userId!, courseId);
 
@@ -14,7 +17,9 @@ async function Page({ params: { courseId, locale } }: Props) {
 
   const { lessonId, sectionId } = await getLastLesson(userId!, courseId);
 
-  return redirect(`/${locale}/dashboard/${courseId}/${lessonId}?s=${sectionId}`);
+  return redirect(
+    `/${locale}/dashboard/${courseId}/${lessonId}?s=${sectionId}`
+  );
 }
 
 export default Page;

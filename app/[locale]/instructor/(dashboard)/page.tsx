@@ -6,6 +6,11 @@ import { GrMoney } from "react-icons/gr";
 import { auth } from "@clerk/nextjs/server";
 import { getCourses } from "@/actions/course.action";
 import InstructorCourseCard from "@/components/cards/InstructorCourseCard";
+// import { getRole } from "@/actions/user.action";
+// import { redirect } from "next/navigation";
+import { getReviews } from "@/actions/review.action";
+import ReviewCard from "@/components/cards/ReviewCard";
+import { formatAndDivideNumber } from "@/lib/utils";
 
 async function DashboardPage() {
   const { userId } = await auth();
@@ -14,7 +19,7 @@ async function DashboardPage() {
   // if (user.role !== "instructor") return redirect("/");
 
   const result = await getCourses({ clerkId: userId! });
-  // const { reviews, totalReviews } = await getReviews({ clerkId: userId! });
+  const { reviews, totalReviews } = await getReviews({ clerkId: userId! });
 
   return (
     <>
@@ -26,29 +31,25 @@ async function DashboardPage() {
       <div className="mt-4 grid grid-cols-4 gap-4">
         <StatisticsCard
           label="Total courses"
-          value="0"
-          // value={result.totalCourses.toString()}
+          value={result.totalCourses.toString()}
           Icon={MonitorPlay}
         />
         <StatisticsCard
           label="Total students"
-          value="0"
-          // value={formatAndDivideNumber(result.totalStudents)}
+          value={formatAndDivideNumber(result.totalStudents)}
           Icon={PiStudent}
         />
         <StatisticsCard
           label="Reviews"
-          value="0"
-          // value={formatAndDivideNumber(totalReviews)}
+          value={formatAndDivideNumber(totalReviews)}
           Icon={MessageSquare}
         />
         <StatisticsCard
           label="Total Sales"
-          value="0"
-          // value={result.totalEearnings.toLocaleString("en-US", {
-          //   style: "currency",
-          //   currency: "USD",
-          // })}
+          value={result.totalEearnings.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
           Icon={GrMoney}
         />
       </div>
@@ -70,11 +71,11 @@ async function DashboardPage() {
       <InstructorHeader title="Reviews" description="Here are your latest reviews" />
 
       <div className="mt-4 grid grid-cols-3 gap-4">
-        {/* {reviews.map((review) => (
+        {reviews.map((review) => (
           <div className="rounded-md bg-background px-4 pb-4" key={review._id}>
             <ReviewCard review={JSON.parse(JSON.stringify(review))} />
           </div>
-        ))} */}
+        ))}
       </div>
     </>
   );
