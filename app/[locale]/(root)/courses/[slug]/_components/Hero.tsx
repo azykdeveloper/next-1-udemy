@@ -13,7 +13,7 @@ import { getFreeLessons } from "@/actions/lesson.action";
 import { toast } from "sonner";
 import FillLoading from "@/components/shared/FillLoading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-// import Vimeo from "@u-wave/react-vimeo";
+import Vimeo from "@u-wave/react-vimeo";
 import { formatLessonTime } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -107,7 +107,7 @@ function Hero(course: ICourse) {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="custom-scrollbar max-h-full max-w-full overflow-y-auto md:max-w-4xl">
-          {/* <Vimeo video={lesson?.videoUrl!} responsive autoplay /> */}
+          <Vimeo video={lesson?.videoUrl!} responsive autoplay /> 
           <h1 className="font-space-grotesk text-2xl font-bold">
             {t("freeLessons")}
           </h1>
